@@ -16,6 +16,7 @@
   "license": "proprietary",
   "private": "true",
   "devDependencies": {
-    "gulp": "~3.8.11"
+    "gulp": "~3.8.11",
+    "coffee-script": "~1.9.1"
   }
 }
