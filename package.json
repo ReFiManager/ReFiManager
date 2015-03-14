@@ -14,5 +14,8 @@
   ],
   "author": "Ondřej Záruba <zarubaondra@gmail.com>",
   "license": "proprietary",
-  "private": "true"
+  "private": "true",
+  "devDependencies": {
+    "gulp": "~3.8.11"
+  }
 }
