@@ -17,6 +17,7 @@
   "private": "true",
   "devDependencies": {
     "gulp": "~3.8.11",
-    "coffee-script": "~1.9.1"
+    "coffee-script": "~1.9.1",
+    "webpack": "~1.7.3"
   }
 }
