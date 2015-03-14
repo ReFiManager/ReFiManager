@@ -1,9 +1,0 @@
-{
-  "app": "app",
-  "less": "assets/less",
-  "vendor": "vendor",
-  "dist": {
-    "js": "dist/js",
-    "css": "dist/css"
-  }
-}

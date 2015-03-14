@@ -14,11 +14,5 @@
   ],
   "author": "Ondřej Záruba <zarubaondra@gmail.com>",
   "license": "proprietary",
-  "private": "true",
-  "devDependencies": {
-    "gulp": "~3.8.11",
-    "coffee-script": "~1.9.1",
-    "gulp-browserify": "~0.5.1",
-    "reactify": "~1.1.0"
-  }
+  "private": "true"
 }
