@@ -13,5 +13,8 @@
   ],
   "license": "proprietary",
   "homepage": "https://bitbucket.org/Budry/rfmanager",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "~3.3.2"
+  }
 }
