@@ -6,9 +6,11 @@
 
 React = require "react"
 RFManager = require "./components/RFManager"
+FsStorage = require "./storages/FsStorage"
 
 if not $?
   throw "Missing jQuery!"
 
 $.fn.RFManager = (options) ->
+  FsStorage.setUrl options.baseUrl
   React.render <RFManager />, this[0]

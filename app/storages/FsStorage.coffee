@@ -8,7 +8,7 @@ reqwest = require "reqwest"
 
 class FsStorage
 
-  constructor: (@url) ->
+  setUrl: (@url) ->
 
   getAll: (directory) ->
     return reqwest
@@ -16,4 +16,4 @@ class FsStorage
       type: "json"
       method: "GET"
 
-module.exports = FsStorage
+module.exports = new FsStorage()
