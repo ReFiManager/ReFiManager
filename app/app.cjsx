@@ -7,5 +7,8 @@
 React = require "react"
 RFManager = require "./components/RFManager"
 
+if not $?
+  throw "Missing jQuery!"
+
 $.fn.RFManager = (options) ->
   React.render <RFManager />, this[0]
