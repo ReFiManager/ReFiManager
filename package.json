@@ -23,6 +23,7 @@
     "coffee-jsx-loader": "~0.1.0",
     "react": "~0.13.0",
     "gulp-rename": "~1.2.0",
-    "gulp-uglify": "~1.1.0"
+    "gulp-uglify": "~1.1.0",
+    "reqwest": "~1.1.5"
   }
 }
