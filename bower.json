@@ -1,0 +1,17 @@
+{
+  "name": "rf-manager",
+  "version": "0.0.1",
+  "authors": [
+    "Ondřej Záruba <zarubaondra@gmail.com>"
+  ],
+  "description": "Javascript file manager wokrs as REST client",
+  "keywords": [
+    "RFManager",
+    "file",
+    "manager",
+    "rest"
+  ],
+  "license": "proprietary",
+  "homepage": "https://bitbucket.org/Budry/rfmanager",
+  "private": true
+}
