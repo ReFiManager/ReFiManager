@@ -1,0 +1,11 @@
+{
+  "app": "app",
+  "vendor": "vendor",
+  "themes": {
+    "bootstrap": "themes/bootstrap"
+  },
+  "dist": {
+    "js": "dist/js",
+    "css": "dist/css"
+  }
+}
