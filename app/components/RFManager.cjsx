@@ -6,6 +6,7 @@
 
 React = require "react"
 Navigation = require "./Navigation"
+FsItemList = require "./FsItemList"
 
 class RFManager extends React.Component
 
@@ -14,7 +15,7 @@ class RFManager extends React.Component
       <div className="RFManager-leftBar"></div>
       <div className="RFManager-content">
         <Navigation />
-        <div className="RFManager-list"></div>
+        <FsItemList />
       </div>
     </div>
 
