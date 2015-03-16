@@ -59,15 +59,22 @@ class NavigationStorage extends EventEmitter
         @emit(@UPDATE_EVENT)
         return
 
+  ###
+  # Returns list of fsObject reprezents actual position
+  # in folder structure
+  #
+  # @returns fsObject[]
+  ###
   getList: () ->
     return @storage.session @STORAGE_LIST_KEY
 
-  ###
-  #
   # Events
-  #
-  ###
 
+  ###
+  # Register update listener
+  #
+  # @param callback
+  ###
   addUpdateListener: (callback) ->
     @on @UPDATE_EVENT, callback
 

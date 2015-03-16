@@ -21,6 +21,9 @@ class NavigationItem extends React.Component
     else
       return <li key={@fsObject.path}><a href="#" onClick={@_onClick.bind @}>{@fsObject.name}</a></li>
 
+  ###
+  # Go back
+  ###
   _onClick: () ->
     NavigationStorage.goBack(@fsObject)
 

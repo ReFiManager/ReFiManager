@@ -15,9 +15,17 @@ class Navigation extends React.Component
     @state =
       items: @getItems()
 
+  ###
+  # Register listener for NavigationStorage update event
+  ###
   componentDidMount: () ->
     NavigationStorage.addUpdateListener(@_onChange);
 
+  ###
+  # Returns lisf of <NagivationItem /> component
+  #
+  # @returns <NavigationList />[]
+  ###
   getItems: () ->
     items = []
     list = NavigationStorage.getList()
@@ -32,6 +40,9 @@ class Navigation extends React.Component
       {@state.items}
     </ul>
 
+  ###
+  # Listener for NavigationStore update event
+  ###
   _onChange: () =>
     @setState
       items: @getItems()
