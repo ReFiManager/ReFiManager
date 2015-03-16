@@ -6,6 +6,12 @@
   },
   "dist": {
     "js": "dist/js",
-    "css": "dist/css"
+    "css": "dist/css",
+    "themes": {
+      "bootstrap": {
+        "css": "dist/themes/bootstrap/css",
+        "js": "dist/themes/bootstrap/js"
+      }
+    }
   }
 }
