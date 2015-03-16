@@ -13,4 +13,5 @@ if not $?
 
 $.fn.RFManager = (options) ->
   fsObject = FsObject.createInitialObject(options.startDirectory)
+  FsObject.validate fsObject
   NavigationStorage.add fsObject
