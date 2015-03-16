@@ -1,4 +1,38 @@
 @import (reference) "../../../vendor/bootstrap/less/bootstrap.less";
 
-@import "breadcrumbs.less";
-@import "itemList.less";
+.RFManager-container {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  font-family: @font-family-base;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  color: @text-color;
+  background-color: @body-bg;
+  & table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: @table-bg;
+  }
+  & td, th {
+    padding: 0;
+  }
+  & caption {
+    padding-top: @table-cell-padding;
+    padding-bottom: @table-cell-padding;
+    color: @text-muted;
+    text-align: left;
+  }
+  & th  {
+    text-align: left;
+  }
+}
+
+.RFManager-fsItemList {
+  .table;
+  .table-hover;
+}
+
+.RFManager-breadcrumb {
+  .breadcrumb
+}
+
