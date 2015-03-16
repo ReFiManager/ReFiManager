@@ -7,6 +7,7 @@
 React = require "react"
 FsObject = require "./utils/FsObject"
 NavigationStorage = require "./storages/NavigationStorage"
+RFManager = require "./components/RFManager"
 
 if not $?
   throw "Missing jQuery!"
@@ -14,3 +15,4 @@ if not $?
 $.fn.RFManager = (options) ->
   fsObject = FsObject.createInitialObject(options.startDirectory)
   NavigationStorage.add fsObject
+  React.render <RFManager />, this[0]
