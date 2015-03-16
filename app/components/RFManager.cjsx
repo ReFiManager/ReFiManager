@@ -5,6 +5,7 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
+Navigation = require "./Navigation"
 
 class RFManager extends React.Component
 
@@ -12,7 +13,7 @@ class RFManager extends React.Component
     <div className="RFManager-container">
       <div className="RFManager-leftBar"></div>
       <div className="RFManager-content">
-        <div className="RFManager-breadcrumbs"></div>
+        <Navigation />
         <div className="RFManager-list"></div>
       </div>
     </div>
