@@ -24,6 +24,14 @@ Core object for works with API is `FsObject`
 * `mime-type` - **REQUIRED for files** Mime type of file (for directory is not required)
 * `meta.created` - Time of created file or directory
 * `meta.modified` - Last file or directory update time
-* `meta.size` - Size of file (for directory has no efect)
+* `meta.size` - Size of file in KB(for directory has no efect)
 
 All `meta` informations is optional
+
+### URLs
+
+Base URL format is `/<type>/<id>` for `GET`, `POST`, `UPDATE`, `DELETE` methods when `<type>` is type of `FsObject` file or directory and `<id>` is `id` from `FsObject`
+
+### API docs
+
+Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
