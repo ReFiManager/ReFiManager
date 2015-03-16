@@ -21,23 +21,23 @@ class FsObject
       path: btoa path
       name: "Root"
       type: @DIRECTORY_TYPE
-      "mime-type": null
+    @validate fsObject
     return fsObject
 
   validate: (object) ->
     schema = Joi.object().keys
-      path: Joi.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/)
-      name: Joi.string()
-      type: Joi.string().regex(/^file|directory$/)
-      "mime-type": Joi.string()
+      path: Joi.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/).required()
+      name: Joi.string().optional()
+      type: Joi.string().regex(/^file|directory$/).required()
+      "mime-type": Joi.string().optional()
       meta: Joi.object
-        created: Joi.date()
-        modified: Joi.date()
-        size: Joi.number().integer()
-    .with "path", "type"
-    .without "name", "mete", "mime-type"
-
-    console.log Joi.validate object, schema
+        created: Joi.date().optional()
+        modified: Joi.date().optional()
+        size: Joi.number().integer().optional()
+      .optional()
+    Joi.validate object, schema, (error, object) ->
+      if error?
+        throw "fsObject invalid error: #{error.message}"
 
 
 module.exports = new FsObject()
