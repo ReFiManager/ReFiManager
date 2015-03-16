@@ -54,4 +54,7 @@ class NavigationStorage
         @storage.session @STORAGE_LIST_KEY, list.slice 0, i + 1
         return
 
+  getList: () ->
+    return @storage.session @STORAGE_LIST_KEY
+
 module.exports = new NavigationStorage()
