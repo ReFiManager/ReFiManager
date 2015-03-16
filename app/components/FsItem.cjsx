@@ -15,7 +15,7 @@ class FsItem extends React.Component
     @fsObject = props.fsObject
 
   render: () ->
-    <tr>
+    <tr className="RFManager-fsItem">
       <td>{@fsObject.name}</td>
     </tr>
 
