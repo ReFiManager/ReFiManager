@@ -2,28 +2,28 @@
 
 ## API
 
-### Response format
-
-#### Filesystem object (file or directory)
+Core object for works with API is `FsObject`
 
 ```json
 {
+    "id": "",
+    "name": "",
     "type": "",
-    "path": "",
     "mime-type": "",
     "meta": {
         "created": "",
         "modified": "",
-        "size": ""
+        "size": "",
     }
 }
 ```
 
-* `type` - **Required value!** Values can be `file` or `directory`
-* `path` - **Required value!** Path to file or directory. All request will be works with this path
-* `mime-type` - **Required only for files!** Mime-type of file, 
-* `meta.created` - valid date time of created file or directory
-* `meta.modified` - valid date time of last edit file or directory
-* `meta.size` - size of file, for directory is this value ignored
+* `id` - **REQUIRED** Unique id of file or directory. If you haven't id you can use hash of path, for example `md5(path)`, `base64(path)` or you can use direct path to file or directory.
+* `name` - Name of file or directory. This value will be displayed on list of files. If this value missing name will be used from id *(If `id` will be full path will be used last segment as file name, in others cases will be used `id`)*.
+* `type` - **REQUIRED** Type of `FsObject`. Enabled values are `file` or `directory`
+* `mime-type` - **REQUIRED for files** Mime type of file (for directory is not required)
+* `meta.created` - Time of created file or directory
+* `meta.modified` - Last file or directory update time
+* `meta.size` - Size of file (for directory has no efect)
 
-All `meta` values is optional.
+All `meta` informations is optional
