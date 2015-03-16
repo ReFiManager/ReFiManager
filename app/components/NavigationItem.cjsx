@@ -5,13 +5,24 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
+NavigationStorage = require "../storages/NavigationStorage"
 
 class NavigationItem extends React.Component
 
+  fsObject: {}
+
+  constructor: (props) ->
+    super props
+    @fsObject = props.fsObject
+
   render: () ->
     if @props.isLast
-      return <li className="active" key={@props.fsObject.path}>{@props.fsObject.name}</li>
+      return <li className="active" key={@fsObject.path}>{@fsObject.name}</li>
     else
-      return <li key={@props.fsObject.path}><a href="">{@props.fsObject.name}</a></li>
+      return <li key={@fsObject.path}><a href="#" onClick={@_onClick.bind @}>{@fsObject.name}</a></li>
+
+  _onClick: () ->
+    NavigationStorage.goBack(@fsObject)
+
 
 module.exports = NavigationItem
