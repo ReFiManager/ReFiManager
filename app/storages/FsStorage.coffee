@@ -10,10 +10,25 @@ class FsStorage
 
   setUrl: (@url) ->
 
-  getAll: (directory) ->
-    return reqwest
-      url: "#{@url}/file-system/"
+  getContent: () ->
+    options = @_createRequest({type:"directory", id: "45"}, "GET")
+    return reqwest(options)
+
+  delete: () ->
+
+  create: () ->
+
+  _createRequest: (fsObject, method) ->
+    url = "#{@url}/#{fsObject.type}"
+    if method != "POST"
+      console.log "ASDSAD"
+      url = "#{url}/#{fsObject.id}"
+    options =
+      url: url
       type: "json"
-      method: "GET"
+      method: method
+    return options
+
+
 
 module.exports = new FsStorage()

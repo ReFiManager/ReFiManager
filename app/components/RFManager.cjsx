@@ -17,9 +17,9 @@ class RFManager extends React.Component
 
   componentDidMount: () ->
     items = []
-    FsStorage.getAll().then (res) =>
+    FsStorage.getContent().then (res) =>
       for i in res
-        items.push <FsItem name={i.path} />
+        items.push <FsItem name={i.name} />
       @setState
         items: items
 
