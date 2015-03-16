@@ -11,8 +11,12 @@ class Navigation extends React.Component
 
   getItems: () ->
     items = []
-    for item, i in NavigationStorage.getList()
-      items.push <li key={i}>{item.name}</li>
+    list = NavigationStorage.getList()
+    for item, i in list
+      if i == list.length - 1
+        items.push <li className="active" key={i + 1}>{item.name}</li>
+      else
+        items.push <li key={i}><a href="">{item.name}</a></li>
 
     return items
 
