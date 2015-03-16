@@ -8,10 +8,15 @@ React = require "react"
 
 class FsItem extends React.Component
 
+  fsObject: {}
+
+  constructor: (props) ->
+    super props
+    @fsObject = props.fsObject
+
   render: () ->
     <tr>
-      <td></td>
-      <td>File</td>
+      <td>{@fsObject.name}</td>
     </tr>
 
 module.exports = FsItem
