@@ -5,6 +5,7 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
+NavigationItem = require "./NavigationItem"
 NavigationStorage = require "../storages/NavigationStorage"
 
 class Navigation extends React.Component
@@ -13,10 +14,8 @@ class Navigation extends React.Component
     items = []
     list = NavigationStorage.getList()
     for item, i in list
-      if i == list.length - 1
-        items.push <li className="active" key={i + 1}>{item.name}</li>
-      else
-        items.push <li key={i}><a href="">{item.name}</a></li>
+      isLast = i == list.length - 1
+      items.push <NavigationItem key={i} fsObject={item} isLast={isLast} />
 
     return items
 
