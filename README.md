@@ -35,3 +35,8 @@ Base URL format is `/<type>/<id>` for `GET`, `POST`, `UPDATE`, `DELETE` methods 
 ### API docs
 
 Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
+
+## Configuration
+
+* `baseUrl` - Base URL for you API. For example `baseUrl: http://example.com` will be generate `http://example.com/<type>/<id>`
+* `startDirectory`: - Starting directory will be displayed on start RFManager
