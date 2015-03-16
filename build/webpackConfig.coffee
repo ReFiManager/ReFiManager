@@ -13,3 +13,6 @@ module.exports =
       {test: /\.cjsx$/, loader: "coffee-jsx-loader"}
       {test: /\.css$/, loader: "style-loader!css-loader"}
     ]
+  node:
+    dns: "empty"
+    net: "empty"
