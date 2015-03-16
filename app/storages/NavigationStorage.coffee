@@ -5,11 +5,14 @@
 # the license.md file that was distributed with this source code.
 
 store2 = require "store2"
+EventEmitter = require("events").EventEmitter
 
-class NavigationStorage
+class NavigationStorage extends EventEmitter
 
   STORAGE_NAME: "RFManager.NavigationStorage"
   STORAGE_LIST_KEY: "list"
+
+  UPDATE_EVENT: "update"
 
   ###
   # Initialize storage and created empty list
@@ -41,6 +44,7 @@ class NavigationStorage
     list = @storage.session(@STORAGE_LIST_KEY)
     list.push(fsObject)
     @storage.session(@STORAGE_LIST_KEY, list)
+    @emit(@UPDATE_EVENT)
 
   ###
   # Remove all items after wanted item
@@ -52,9 +56,19 @@ class NavigationStorage
     for item, i in list
       if item.path == wanted.path
         @storage.session @STORAGE_LIST_KEY, list.slice 0, i + 1
+        @emit(@UPDATE_EVENT)
         return
 
   getList: () ->
     return @storage.session @STORAGE_LIST_KEY
+
+  ###
+  #
+  # Events
+  #
+  ###
+
+  addUpdateListener: (callback) ->
+    @on @UPDATE_EVENT, callback
 
 module.exports = new NavigationStorage()
