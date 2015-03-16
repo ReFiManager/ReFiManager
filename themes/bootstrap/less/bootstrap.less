@@ -28,6 +28,7 @@
   & a {
     text-decoration: none;
   }
+  height: auto;
 }
 
 .RFManager-fsItemList {
@@ -43,7 +44,29 @@
   cursor: pointer;
 }
 
-.RFManager-insertButton {
-  .btn;
-  .btn-primary
+.RFManager-content {
+  width: auto;
+  float: none;
+  overflow: hidden;
+}
+
+.RFManager-selectBar {
+  text-align: center;
+  width: 250px;
+  float: left;
+  padding-top: 15px;
+  > img {
+    width: 224px;
+    height: auto;
+  }
+  > .RFManager-insertButton {
+    .btn;
+    .btn-primary;
+    width: 200px;
+  }
+  > input {
+    .form-control;
+    width: 225px;
+    margin: 10px 12px;
+  }
 }

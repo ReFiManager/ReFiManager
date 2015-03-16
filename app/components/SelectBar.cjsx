@@ -10,6 +10,8 @@ class SelectBar extends React.Component
 
   render: () ->
     <div className="RFManager-selectBar">
+      <img src="" />
+      <input type="text" />
       <a href="#" className="RFManager-insertButton">Insert</a>
     </div>
 
