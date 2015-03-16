@@ -23,7 +23,7 @@ class NavigationStorage
   # Returns current directory (last directory
   # in list). If is list empty throw exception
   #
-  # @returns FsObject
+  # @returns fsObject
   ###
   getCurrent: () ->
     list = @storage.session @STORAGE_LIST_KEY
@@ -35,17 +35,17 @@ class NavigationStorage
   ###
   # Add a new item into navigation list
   #
-  # @param FsObject
+  # @param fsObject
   ###
-  add: (FsObject) ->
+  add: (fsObject) ->
     list = @storage.session(@STORAGE_LIST_KEY)
-    list.push(FsObject)
+    list.push(fsObject)
     @storage.session(@STORAGE_LIST_KEY, list)
 
   ###
   # Remove all items after wanted item
   #
-  # @param FsObject
+  # @param fsObject
   ###
   goBack: (wanted) ->
     list = @storage.session @STORAGE_LIST_KEY
