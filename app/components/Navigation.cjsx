@@ -10,6 +10,14 @@ NavigationStorage = require "../storages/NavigationStorage"
 
 class Navigation extends React.Component
 
+  constructor: (props) ->
+    super props
+    @state =
+      items: @getItems()
+
+  componentDidMount: () ->
+    NavigationStorage.addUpdateListener(@_onChange);
+
   getItems: () ->
     items = []
     list = NavigationStorage.getList()
@@ -21,7 +29,12 @@ class Navigation extends React.Component
 
   render: () ->
     <ul className="RFManager-breadcrumb">
-      {@getItems()}
+      {@state.items}
     </ul>
+
+  _onChange: () =>
+    @setState
+      items: @getItems()
+
 
 module.exports = Navigation
