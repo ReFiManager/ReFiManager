@@ -24,8 +24,9 @@ class NavigationItem extends React.Component
   ###
   # Go back
   ###
-  _onClick: () ->
+  _onClick: (e) ->
     NavigationStorage.goBack(@fsObject)
+    e.stopPropagation()
 
 
 module.exports = NavigationItem

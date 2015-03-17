@@ -43,8 +43,9 @@ class FsItem extends React.Component
   _onToggleSelect: () ->
     SelectionStorage.toggle @fsObject
 
-  _moveInto: () ->
+  _moveInto: (e) ->
     if @fsObject.type == "directory"
       NavigationStorage.add @fsObject
+      e.stopPropagation()
 
 module.exports = FsItem
