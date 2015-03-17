@@ -5,14 +5,36 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
+SelectedItem = require "./SelectedItem"
+SelectionStorage = require "../storages/SelectionStorage"
 
 class SelectBar extends React.Component
+
+  constructor: (props) ->
+    super props
+    @state =
+      selectedItems: @getItems()
+
+  componentDidMount: () ->
+    SelectionStorage.addUpdateListener(@_onChange.bind @)
+
+  getItems: () ->
+    items = []
+    for item, i in SelectionStorage.getList()
+      items.push <SelectedItem key={i} fsObject={item} />
+    return items
 
   render: () ->
     <div className="RFManager-selectBar">
       <img src="" />
-      <input type="text" />
+      <ul className="RFManager-list-group">
+        {@state.selectedItems}
+      </ul>
       <a href="#" className="RFManager-insertButton">Insert</a>
     </div>
+
+  _onChange: () ->
+    @setState
+      selectedItems: @getItems()
 
 module.exports = SelectBar
