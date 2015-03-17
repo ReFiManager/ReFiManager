@@ -82,6 +82,18 @@ class SelectionStorage extends EventEmitter
   getList: () ->
     return @storage @STORAGE_KEY
 
+  ###
+  # Returns last added fsObject
+  #
+  # @return fsObject|null
+  ###
+  getLastAdded: () ->
+    list = @storage @STORAGE_KEY
+    index = list.length - 1;
+    if index < 0
+      return null
+    return list[index]
+
   # Events
 
   ###
