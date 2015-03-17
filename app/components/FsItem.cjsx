@@ -6,6 +6,7 @@
 
 React = require "react"
 NavigationStorage = require "../storages/NavigationStorage"
+SelectionStorage = require "../storages/SelectionStorage"
 
 class FsItem extends React.Component
 
@@ -14,13 +15,35 @@ class FsItem extends React.Component
   constructor: (props) ->
     super props
     @fsObject = props.fsObject
+    @state =
+      selected: @isSelected()
+
+  componentDidMount: () ->
+    SelectionStorage.addUpdateListener(@_onChange.bind @);
+
+  isSelected: () ->
+    return SelectionStorage.exist @fsObject
 
   render: () ->
-    <tr className="RFManager-fsItem" onClick={@_onClick.bind @}>
-      <td>{@fsObject.name}</td>
-    </tr>
+    if @fsObject.type == "directory"
+      val = <a href="#" onClick={@_moveInto.bind @}>{@fsObject.name}</a>
+    else
+      val = @fsObject.name
+    return (
+      <tr className="RFManager-fsItem">
+        <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
+        <td>{val}</td>
+      </tr>
+    )
 
-  _onClick: () ->
+  _onChange: () ->
+    @setState
+      selected: @isSelected()
+
+  _onToggleSelect: () ->
+    SelectionStorage.toggle @fsObject
+
+  _moveInto: () ->
     if @fsObject.type == "directory"
       NavigationStorage.add @fsObject
 
