@@ -10,6 +10,9 @@ class FsResource
 
   setBaseUrl: (@baseUrl) ->
 
+  getBaseUrl: () ->
+    return @baseUrl
+
   get: (fsObject) ->
     return reqwest @_getOptions(fsObject, "GET")
 
