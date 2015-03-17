@@ -6,7 +6,7 @@
 
 React = require "react"
 FsItem = require "./FsItem"
-FsResource = require "../resources/FsResource"
+FsStorage = require "../storages/FsStorage"
 NavigationStorage = require "../storages/NavigationStorage"
 
 class FsItemList extends React.Component
@@ -18,7 +18,7 @@ class FsItemList extends React.Component
 
   componentDidMount: () ->
     NavigationStorage.addUpdateListener(@_onChange.bind @)
-    FsResource.get(NavigationStorage.getCurrent()).then (data) =>
+    FsStorage.getDirectoryContent(NavigationStorage.getCurrent().path).then (data) =>
       @setState
         items: data
 
@@ -46,7 +46,7 @@ class FsItemList extends React.Component
     </table>
 
   _onChange: () ->
-     FsResource.get(NavigationStorage.getCurrent()).then (data) =>
+     FsStorage.getDirectoryContent(NavigationStorage.getCurrent().path).then (data) =>
       @setState
         items: data
 

@@ -13,15 +13,23 @@ class FsResource
   getBaseUrl: () ->
     return @baseUrl
 
-  get: (fsObject) ->
-    return reqwest @_getOptions(fsObject, "GET")
+  get: (type, path) ->
+    return reqwest @_getOptions(type, "GET", path)
 
-  delete: () ->
-    return reqwest @_getOptions(fsObject, "DELETE")
+  delete: (type, path) ->
+    return reqwest @_getOptions(type, "DELETE", path)
 
-  _getOptions: (fsObject, method) ->
+  post: (type, data) ->
+    optios = @_getOptions(data, "POST")
+    optios.data = data
+    return reqwest optios
+
+  _getOptions: (type, method, path) ->
+    url = "#{@baseUrl}/#{type}"
+    if method != "POST"
+      url = "#{url}/#{path}"
     options =
-      url: "#{@baseUrl}/#{fsObject.type}/#{fsObject.path}"
+      url: url
       method: method
       type: "json"
     return options
