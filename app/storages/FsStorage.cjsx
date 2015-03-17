@@ -18,4 +18,7 @@ class FsStorage
       currentDirectory: NavigationStorage.getCurrent().path
     return FsResource.post "directory", data
 
+  remove: (type, path) ->
+    return FsResource.delete(type, path)
+
 module.exports = new FsStorage()
