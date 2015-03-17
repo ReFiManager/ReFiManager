@@ -21,4 +21,7 @@ class FsStorage
   remove: (type, path) ->
     return FsResource.delete(type, path)
 
+  uploadFiles: (form, files) ->
+    return FsResource.upload form, files, NavigationStorage.getCurrent().path
+
 module.exports = new FsStorage()
