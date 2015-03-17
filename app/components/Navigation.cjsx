@@ -37,7 +37,7 @@ class Navigation extends React.Component
     list = NavigationStorage.getList()
     for item, i in list
       isLast = i == list.length - 1
-      items.push <NavigationItem key={i} fsObject={item} isLast={isLast} />
+      items.push <NavigationItem key={item.path} fsObject={item} isLast={isLast} />
 
     return items
 

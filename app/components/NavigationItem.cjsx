@@ -17,9 +17,9 @@ class NavigationItem extends React.Component
 
   render: () ->
     if @props.isLast
-      return <li className="active" key={@fsObject.path}>{@fsObject.name}</li>
+      return <li className="active">{@fsObject.name}</li>
     else
-      return <li key={@fsObject.path}><a href="#" onClick={@_onClick.bind @}>{@fsObject.name}</a></li>
+      return <li><a href="#" onClick={@_onClick.bind @}>{@fsObject.name}</a></li>
 
   ###
   # Go back

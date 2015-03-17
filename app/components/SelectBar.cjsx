@@ -24,8 +24,8 @@ class SelectBar extends React.Component
 
   getItems: () ->
     items = []
-    for item, i in SelectionStorage.getList()
-      items.push <SelectedItem key={i} fsObject={item} />
+    for item in SelectionStorage.getList()
+      items.push <SelectedItem key={item.path} fsObject={item} />
     return items
 
   render: () ->
