@@ -24,6 +24,15 @@ class FsResource
     optios.data = data
     return reqwest optios
 
+  upload: (form, files, currentDirectory) ->
+    formData = new FormData(form)
+    formData.append('currentDirectory', currentDirectory)
+    for file in files
+      formData.append('file', file)
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', "#{@baseUrl}/file", true);
+    xhr.send(formData);
+
   _getOptions: (type, method, path) ->
     url = "#{@baseUrl}/#{type}"
     if method != "POST"
