@@ -29,7 +29,7 @@ class FsObject
       path: Joi.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/).required()
       name: Joi.string().optional()
       type: Joi.string().regex(/^file|directory$/).required()
-      "mime-type": Joi.string().optional()
+      mimeType: Joi.string().optional()
       meta: Joi.object
         created: Joi.date().optional()
         modified: Joi.date().optional()
