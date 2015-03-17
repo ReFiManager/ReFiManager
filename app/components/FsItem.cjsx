@@ -7,6 +7,7 @@
 React = require "react"
 NavigationStorage = require "../storages/NavigationStorage"
 SelectionStorage = require "../storages/SelectionStorage"
+FsStorage = require "../storages/FsStorage"
 
 class FsItem extends React.Component
 
@@ -36,8 +37,15 @@ class FsItem extends React.Component
       <tr className="RFManager-fsItem">
         <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
         <td>{val}</td>
+        <td><a href="#" className="btn btn-xs btn-danger" onClick={@_deleteItem.bind @}>&times;</a></td>
       </tr>
     )
+
+  _deleteItem: () ->
+    FsStorage.remove(@fsObject.type, @fsObject.path).then (data) ->
+      NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
+    , (err, msg) ->
+      console.log msg
 
   _onChange: () ->
     @setState
