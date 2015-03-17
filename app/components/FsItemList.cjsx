@@ -32,6 +32,7 @@ class FsItemList extends React.Component
     <table className="RFManager-fsItemList">
       <thead>
         <tr>
+          <th></th>
           <th>Name</th>
         </tr>
       </thead>
