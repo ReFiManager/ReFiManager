@@ -6,6 +6,7 @@
 
 React = require "react"
 SelectedItem = require "./SelectedItem"
+PreviewImage = require "./PreviewImage"
 SelectionStorage = require "../storages/SelectionStorage"
 
 class SelectBar extends React.Component
@@ -26,7 +27,7 @@ class SelectBar extends React.Component
 
   render: () ->
     <div className="RFManager-selectBar">
-      <img src="" />
+      <PreviewImage />
       <ul className="RFManager-list-group">
         {@state.selectedItems}
       </ul>
