@@ -15,6 +15,7 @@ class SelectionStorage extends EventEmitter
   UPDATE_EVENT: "update"
 
   constructor: () ->
+    @setMaxListeners 0
     @storage = store2.namespace @STORAGE_NAME
     list = @storage.session @STORAGE_KEY
     if not list?
