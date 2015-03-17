@@ -26,7 +26,7 @@ class FsObject
 
   validate: (object) ->
     schema = Joi.object().keys
-      path: Joi.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/).required()
+      path: Joi.string().required()
       name: Joi.string().optional()
       type: Joi.string().regex(/^file|directory$/).required()
       mimeType: Joi.string().optional()
