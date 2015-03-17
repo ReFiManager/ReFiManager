@@ -13,11 +13,19 @@ class RFManager extends React.Component
 
   render: () ->
     <div className="RFManager-container">
+      <div className="RFManager-nav-bar">
+        <div className="RFManager-nav-bar-title">RFManager</div>
+        <ul className="RFManager-nav">
+          <li><a href="#">Create directory</a></li>
+          <li><a href="#">Upload file</a></li>
+        </ul>
+      </div>
       <SelectBar />
       <div className="RFManager-content">
         <Navigation />
         <FsItemList />
       </div>
+      <div className="RFManager-clear"></div>
     </div>
 
 module.exports = RFManager
