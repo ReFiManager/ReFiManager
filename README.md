@@ -40,3 +40,31 @@ Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
 
 * `baseUrl` - Base URL for you API. For example `baseUrl: http://example.com` will be generate `http://example.com/<type>/<id>`
 * `startDirectory`: - Starting directory will be displayed on start RFManager
+
+## TODO
+
+### v1.0.0
+
+* Default independent theme (like as bootstrap)
+* Messages system (for errors and others messages)
+* Stabilize API
+* File upload
+    - For each file custom request (workaround for file_max_upload_files in PHP)
+* Create Directory
+* Navigation
+* Image preview
+* Insert system
+
+### v1.1.0
+
+* Copy file or directory
+* Move file or directory
+
+### v1.2.0
+
+* Custom themes
+
+### v2.0.0
+
+* Tree view
+* Multiple list types (list, previews, etc...)
