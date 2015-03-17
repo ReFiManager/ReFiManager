@@ -13,9 +13,9 @@ class SelectedItem extends React.Component
     super props
 
   render: () ->
-    <li className="RFManager-list-group-item">
+    <li className="list-group-item">
       {@props.fsObject.name}
-      <a href="#" onClick={@_removeItem.bind @} className="RFManager-drop-selected-button">&times;</a>
+      <a href="#" onClick={@_removeItem.bind @} className="btn btn-xs btn-danger pull-right">&times;</a>
     </li>
 
   _removeItem: (e) ->

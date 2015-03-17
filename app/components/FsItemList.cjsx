@@ -33,7 +33,7 @@ class FsItemList extends React.Component
     return items
 
   render: () ->
-    <table className="RFManager-fsItemList">
+    <table className="table table-hover">
       <thead>
         <tr>
           <th></th>

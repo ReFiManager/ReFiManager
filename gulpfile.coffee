@@ -30,12 +30,5 @@ gulp.task "scripts", ->
   .pipe(gulpIf(getEnv() == "production", uglify()))
   .pipe gulp.dest "#{paths.dist.js}"
 
-gulp.task "theme:bootstrap:css", ->
-  gulp.src "#{paths.themes.bootstrap}/less/bootstrap.less"
-  .pipe less()
-  .pipe(gulpIf(getEnv() == "production", minifyCSS()))
-  .pipe rename "bootstrap-theme.css"
-  .pipe gulp.dest "#{paths.dist.themes.bootstrap.css}"
 
-
-gulp.task "default", ["scripts", "theme:bootstrap:css"]
+gulp.task "default", ["scripts"]

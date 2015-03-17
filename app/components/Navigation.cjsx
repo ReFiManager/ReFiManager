@@ -42,7 +42,7 @@ class Navigation extends React.Component
     return items
 
   render: () ->
-    <ul className="RFManager-breadcrumb">
+    <ul className="breadcrumb">
       {@state.items}
     </ul>
 

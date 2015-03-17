@@ -32,7 +32,7 @@ class PreviewImage extends React.Component
 
 
   render: () ->
-    <img src={@state.src} />
+    <img src={@state.src} className="col-lg-12" />
 
   _onChange: () ->
     fsObject = SelectionStorage.getLastAdded();

@@ -12,20 +12,32 @@ SelectBar = require "./SelectBar"
 class RFManager extends React.Component
 
   render: () ->
-    <div className="RFManager-container">
-      <div className="RFManager-nav-bar">
-        <div className="RFManager-nav-bar-title">RFManager</div>
-        <ul className="RFManager-nav">
-          <li><a href="#">Create directory</a></li>
-          <li><a href="#">Upload file</a></li>
-        </ul>
+    <div className="RFManager">
+      <div className="navbar navbar-default">
+        <div className="navbar-header">
+          <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+          </button>
+          <a className="navbar-brand" href="#">Brand</a>
+        </div>
+        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul className="nav navbar-nav">
+            <li className="active"><a href="#">Link <span className="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+          </ul>
+        </div>
       </div>
-      <SelectBar />
-      <div className="RFManager-content">
-        <Navigation />
-        <FsItemList />
+      <div className="row">
+        <SelectBar />
+        <div className="col-lg-8">
+          <Navigation />
+          <FsItemList />
+        </div>
       </div>
-      <div className="RFManager-clear"></div>
+      <div className="clearfix"></div>
     </div>
 
 module.exports = RFManager

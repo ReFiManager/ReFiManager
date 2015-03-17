@@ -29,12 +29,15 @@ class SelectBar extends React.Component
     return items
 
   render: () ->
-    <div className="RFManager-selectBar">
+    <div className="col-lg-4" >
       <PreviewImage />
-      <ul className="RFManager-list-group">
+      <div className="clearfix"></div>
+      <hr />
+      <ul className="list-group">
         {@state.selectedItems}
       </ul>
-      <a href="#" className="RFManager-insertButton">Insert</a>
+      <div className="clearfix"></div>
+      <a href="#" className="btn btn-primary btn-block">Insert</a>
     </div>
 
   _onChange: () ->
