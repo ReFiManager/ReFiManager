@@ -41,10 +41,11 @@ class NavigationStorage extends EventEmitter
   # @param fsObject
   ###
   add: (fsObject) ->
-    list = @storage.session(@STORAGE_LIST_KEY)
-    list.push(fsObject)
-    @storage.session(@STORAGE_LIST_KEY, list)
-    @emit(@UPDATE_EVENT)
+    if not @exist(fsObject)
+      list = @storage.session(@STORAGE_LIST_KEY)
+      list.push(fsObject)
+      @storage.session(@STORAGE_LIST_KEY, list)
+      @emit(@UPDATE_EVENT)
 
   ###
   # Remove all items after wanted item
