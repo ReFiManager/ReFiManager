@@ -16,9 +16,9 @@ class SelectionStorage extends EventEmitter
 
   constructor: () ->
     @storage = store2.namespace @STORAGE_NAME
-    list = @storage @STORAGE_KEY
+    list = @storage.session @STORAGE_KEY
     if not list?
-      @storage @STORAGE_KEY, []
+      @storage.session @STORAGE_KEY, []
 
   ###
   # Toggle item in storage.
@@ -44,7 +44,7 @@ class SelectionStorage extends EventEmitter
     if not list?
       list = []
     list.push fsObject
-    @storage @STORAGE_KEY, list
+    @storage.session @STORAGE_KEY, list
     @emit @UPDATE_EVENT
 
   ###
@@ -59,7 +59,7 @@ class SelectionStorage extends EventEmitter
       if item.path == fsObject.path
         list.splice i, 1
         break
-    @storage @STORAGE_KEY, list
+    @storage.session @STORAGE_KEY, list
     @emit @UPDATE_EVENT
 
   ###
@@ -80,7 +80,7 @@ class SelectionStorage extends EventEmitter
   # @return fsObject[]
   ###
   getList: () ->
-    return @storage @STORAGE_KEY
+    return @storage.session @STORAGE_KEY
 
   ###
   # Returns last added fsObject
@@ -88,7 +88,7 @@ class SelectionStorage extends EventEmitter
   # @return fsObject|null
   ###
   getLastAdded: () ->
-    list = @storage @STORAGE_KEY
+    list = @getList()
     index = list.length - 1;
     if index < 0
       return null
