@@ -9,6 +9,7 @@ Navigation = require "./Navigation"
 FsItemList = require "./FsItemList"
 SelectBar = require "./SelectBar"
 CreateDirectory = require "./CreateDirectory"
+UploadFile = require "./UploadFile"
 
 class RFManager extends React.Component
 
@@ -26,6 +27,7 @@ class RFManager extends React.Component
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <CreateDirectory />
+          <UploadFile />
         </div>
       </div>
       <div className="row">
