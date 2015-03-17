@@ -15,6 +15,7 @@
   "homepage": "https://bitbucket.org/Budry/rfmanager",
   "private": true,
   "devDependencies": {
-    "bootstrap": "~3.3.2"
+    "bootstrap": "~3.3.2",
+    "font-awesome": "~4.3.0"
   }
 }
