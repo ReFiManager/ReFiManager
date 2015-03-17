@@ -20,7 +20,7 @@ class FsResource
     return reqwest @_getOptions(type, "DELETE", path)
 
   post: (type, data) ->
-    optios = @_getOptions(data, "POST")
+    optios = @_getOptions(type, "POST")
     optios.data = data
     return reqwest optios
 
