@@ -104,4 +104,12 @@ class SelectionStorage extends EventEmitter
   addUpdateListener: (callback) ->
     @on @UPDATE_EVENT, callback
 
+  ###
+  # Remove useless listener
+  #
+  # @param callback
+  ###
+  removeUpdateListener: (callback) ->
+    @removeListener(@UPDATE_EVENT, callback);
+
 module.exports = new SelectionStorage()

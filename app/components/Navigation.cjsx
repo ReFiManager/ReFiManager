@@ -22,6 +22,12 @@ class Navigation extends React.Component
     NavigationStorage.addUpdateListener(@_onChange);
 
   ###
+  # Remove listener if component is unmounted
+  ###
+  componentWillUnmount: () ->
+    NavigationStorage.removeUpdateListener(@_onChange.bind @)
+
+  ###
   # Returns lisf of <NagivationItem /> component
   #
   # @returns <NavigationList />[]

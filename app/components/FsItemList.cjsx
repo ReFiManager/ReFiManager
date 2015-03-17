@@ -17,9 +17,13 @@ class FsItemList extends React.Component
       items: []
 
   componentDidMount: () ->
+    NavigationStorage.addUpdateListener(@_onChange.bind @)
     FsResource.get(NavigationStorage.getCurrent()).then (data) =>
       @setState
         items: data
+
+  componentWillUnmount: () ->
+    NavigationStorage.removeUpdateListener(@_onChange.bind @)
 
   getItems: () ->
     items = []
@@ -40,5 +44,10 @@ class FsItemList extends React.Component
         {@getItems()}
       </tbody>
     </table>
+
+  _onChange: () ->
+     FsResource.get(NavigationStorage.getCurrent()).then (data) =>
+      @setState
+        items: data
 
 module.exports = FsItemList

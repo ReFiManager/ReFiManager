@@ -19,6 +19,9 @@ class SelectBar extends React.Component
   componentDidMount: () ->
     SelectionStorage.addUpdateListener(@_onChange.bind @)
 
+  componentWillUnmount: () ->
+    SelectionStorage.removeUpdateListener(@_onChange.bind @)
+
   getItems: () ->
     items = []
     for item, i in SelectionStorage.getList()

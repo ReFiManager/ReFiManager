@@ -21,6 +21,9 @@ class FsItem extends React.Component
   componentDidMount: () ->
     SelectionStorage.addUpdateListener(@_onChange.bind @);
 
+  componentWillUnmount: () ->
+    SelectionStorage.removeUpdateListener(@_onChange.bind @)
+
   isSelected: () ->
     return SelectionStorage.exist @fsObject
 
