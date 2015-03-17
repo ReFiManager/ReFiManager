@@ -33,6 +33,7 @@ class SelectBar extends React.Component
       <PreviewImage />
       <div className="clearfix"></div>
       <hr />
+      <h4>Selected items:</h4>
       <ul className="list-group">
         {@state.selectedItems}
       </ul>
