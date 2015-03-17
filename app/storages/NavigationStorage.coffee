@@ -60,6 +60,12 @@ class NavigationStorage extends EventEmitter
         @emit(@UPDATE_EVENT)
         return
 
+  exist: (fsObject) ->
+    for item in @getList()
+      if item.path == fsObject.path
+        return true
+    return false
+
   ###
   # Returns list of fsObject reprezents actual position
   # in folder structure
