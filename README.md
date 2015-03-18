@@ -54,6 +54,7 @@ Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
 * Navigation
 * Image preview
 * Insert system
+* Sorting
 
 ### v1.1.0
 
