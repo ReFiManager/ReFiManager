@@ -18,7 +18,7 @@ class FsObject
   ###
   createInitialObject: (path) ->
     fsObject =
-      path: encodeURIComponent path
+      path: btoa path
       name: "Root"
       type: @DIRECTORY_TYPE
     @validate fsObject
