@@ -9,11 +9,13 @@ FsObject = require "./utils/FsObject"
 NavigationStorage = require "./storages/NavigationStorage"
 RFManager = require "./components/RFManager"
 FsResource = require "./resources/FsResource"
+Configurator = require "./utils/Configurator"
 
 if not $?
   throw "Missing jQuery!"
 
 $.fn.RFManager = (options) ->
+  Configurator.configure options
   fsObject = FsObject.createInitialObject(options.startDirectory)
   NavigationStorage.add fsObject
   FsResource.setBaseUrl options.baseUrl
