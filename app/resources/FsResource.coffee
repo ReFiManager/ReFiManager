@@ -21,7 +21,7 @@ class FsResource
 
   post: (type, data) ->
     optios = @_getOptions(type, "POST")
-    optios.data = data
+    optios.data = JSON.stringify(data)
     return reqwest optios
 
   upload: (form, files, currentDirectory) ->
@@ -41,6 +41,7 @@ class FsResource
       url: url
       method: method
       type: "json"
+      contentType: 'application/json'
     return options
 
 module.exports = new FsResource()
