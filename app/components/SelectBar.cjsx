@@ -8,6 +8,7 @@ React = require "react"
 SelectedItem = require "./SelectedItem"
 PreviewImage = require "./PreviewImage"
 SelectionStorage = require "../storages/SelectionStorage"
+Inserter = require "./Inserter"
 
 class SelectBar extends React.Component
 
@@ -38,7 +39,7 @@ class SelectBar extends React.Component
         {@state.selectedItems}
       </ul>
       <div className="clearfix"></div>
-      <a href="#" className="btn btn-primary btn-block">Insert</a>
+      <Inserter />
     </div>
 
   _onChange: () ->
