@@ -55,6 +55,7 @@ Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
 * Image preview
 * Insert system
 * Sorting
+* Remove from SelectionStorage if is deleted
 
 ### v1.1.0
 
