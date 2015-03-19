@@ -14,7 +14,7 @@ if not $?
   throw "Missing jQuery!"
 
 $.fn.RFManager = (options) ->
-  Configurator.configure options
+  Configurator.setOptions options
   fsObject = FsObject.createInitialObject(options.startDirectory)
   NavigationStorage.add fsObject
   React.render <RFManager />, this[0]

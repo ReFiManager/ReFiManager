@@ -6,7 +6,7 @@
 
 class Configurator
 
-  configure: (@options) ->
+  setOptions: (@options) ->
 
   getBaseUrl: () ->
     if not @options.baseUrl?
