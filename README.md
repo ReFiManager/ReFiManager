@@ -1,5 +1,27 @@
 # RFManager - REST File Manager
 
+## Configuration
+
+* `baseUrl` **REQUIRED** Base url for you api (for example `http://example.com/api/v1`)
+* `startDirectory` **REQUIRED** `id` from `fsObject` for starting directory
+* `inserter` **REQUIRED** callback for inserter funcion. For more information please see Inserter documentation
+* `enableOrder` Default value is `true`
+
+### Example
+
+```javascript
+$("#manager").RFManager({
+    baseUrl: "http://api.example.com/v1",
+    startDirectory: "Lw==", // Is "/" encoded by base64
+    inserter: function (files) {
+        for (i = 0; i < files.length; i++) {
+            console.log("Insert -> " + files[i].name)
+        }
+    },
+    enableOrder: false
+});
+```
+
 ## fsObject
 
 All files and directories in RFManager is represented by `fsObject`. Its structure is:
@@ -99,6 +121,7 @@ All request and responses are expected as `json`
 
 * Method: `GET`
 * URL: `/directory/:id` when `:id` will be `id` from fsObject
+* Query: you can define order `?order=:id&by=ASC` when `:id` is `id` from fsObject and `by` can be `ASC` or `DESC`
 
 ##### Response
 
