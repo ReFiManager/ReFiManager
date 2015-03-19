@@ -11,8 +11,8 @@ All files and directories in RFManager is represented by `fsObject`. Its structu
     "type": "",
     "mimeType": "",
     "meta": {
-        "created": ""
-        "modified": ""
+        "created": "",
+        "modified": "",
         "size": ""
     }
 }
