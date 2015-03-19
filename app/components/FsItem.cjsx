@@ -42,7 +42,9 @@ class FsItem extends React.Component
     )
 
   _deleteItem: () ->
+    fsObject = @fsObject
     FsStorage.remove(@fsObject.type, @fsObject.path).then (data) ->
+      SelectionStorage.remove fsObject
       NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
     , (err, msg) ->
       console.log msg
