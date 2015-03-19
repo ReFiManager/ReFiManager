@@ -24,8 +24,8 @@ class FsResource
     baseUrl = Configurator.getBaseUrl()
     formData = new FormData(form)
     formData.append('currentDirectory', currentDirectory)
-    for file in files
-      formData.append('file', file)
+    for file, i in files
+      formData.append("file_#{i}", file)
     xhr = new XMLHttpRequest();
     xhr.open('POST', "#{baseUrl}/file", true);
     xhr.send(formData);
