@@ -20,7 +20,9 @@ class NavigationStorage extends EventEmitter
   ###
   constructor: () ->
     @storage = store2.namespace @STORAGE_NAME
-    @storage.session @STORAGE_LIST_KEY, []
+    list = @storage.session @STORAGE_LIST_KEY
+    if not list?
+      @storage.session @STORAGE_LIST_KEY, []
 
   ###
   # Returns current directory (last directory
