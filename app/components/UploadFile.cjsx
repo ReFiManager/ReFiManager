@@ -24,6 +24,7 @@ class UploadFile extends React.Component
     </form>
 
   _onSubmit: (e) ->
+    e.preventDefault()
     FsStorage.uploadFiles(e.target, @state.files)
     React.findDOMNode(this.refs.file).value = '';
     NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
