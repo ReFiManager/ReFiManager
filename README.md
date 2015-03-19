@@ -6,14 +6,14 @@ All files and directories in RFManager is represented by `fsObject`. Its structu
 
 ```json
 {
-    id: "",
-    name: "",
-    type: "",
-    mimeType: "",
-    meta: {
-        created: ""
-        modified: ""
-        size: ""
+    "id": "",
+    "name": "",
+    "type": "",
+    "mimeType": "",
+    "meta": {
+        "created": ""
+        "modified": ""
+        "size": ""
     }
 }
 ```
@@ -47,10 +47,10 @@ RFManager expectds `application/json` with next structure.
 
 ```json
 {
-    data: {}
-    message: {
-        text: "",
-        type: ""
+    "data": {}
+    "message": {
+        "text": "",
+        "type": ""
     }
 }
 ```
@@ -58,9 +58,9 @@ RFManager expectds `application/json` with next structure.
 #### Error response
 ```json
 {
-    message: {
-        text: "",
-        type: ""
+    "message": {
+        "text": "",
+        "type": ""
     }
 }
 ```
