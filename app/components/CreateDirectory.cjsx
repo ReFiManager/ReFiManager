@@ -29,6 +29,7 @@ class CreateDirectory extends React.Component
       name: e.target.value
 
   _onSubmit: (e) ->
+    e.preventDefault()
     FsStorage.createDirectory(@state.name).then (data) =>
       NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
       React.findDOMNode(this.refs.name).value = '';
