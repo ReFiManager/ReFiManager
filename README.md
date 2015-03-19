@@ -66,7 +66,7 @@ RFManager expectds `application/json` with next structure.
 ```
 
 * `message` is optional. If is missing will not be displayed.
-* `body` is required only for any requests. Plese see [API](#api)
+* `body` is required only for any requests. Plese see API
 
 ### API
 
@@ -74,36 +74,36 @@ All request and responses are expected as `json`
 
 #### List of URLs
 
-* `DELETE /file/:id` - [Delete file]()
-* `DELETE /directory/:id` - [Delete directory]()
-* `GET /directory/:id` - [Get content of directory]()
-* `GET /file/:id` - [Get file content]()
-* `POST /directory` - [Create directory]()
-* `POST /file` - [Upload file]()
+* `DELETE /file/:id` - Delete file
+* `DELETE /directory/:id` - Delete directory
+* `GET /directory/:id` - Get content of directory
+* `GET /file/:id` - Get file content
+* `POST /directory` - Create directory
+* `POST /file` - Upload file
 
 #### Delete file or directory
 
 ##### Request
 
 * Method: `DELETE`
-* URL: `/:type/:id` when `:type` can be `file` or `directory` and `:id` will be `id` from [fsObject](#fsObject)
+* URL: `/:type/:id` when `:type` can be `file` or `directory` and `:id` will be `id` from fsObject
 
 ##### Response
 
 * Status: 200/204
-* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+* Body: Can be empty or you can be `message`. Please see Response body structure
 
 #### Get content of directory
 
 ##### Request
 
 * Method: `GET`
-* URL: `/directory/:id` when `:id` will be `id` from [fsObject](#fsObject)
+* URL: `/directory/:id` when `:id` will be `id` from fsObject
 
 ##### Response
 
 * Status 200
-* Body: Expects `body` from [Response body structure]()
+* Body: Expects `body` from Response body structure
 
 #### Get file content
 
@@ -112,7 +112,7 @@ This api will be called only for image for display preview.
 ##### Request
 
 * Method: `GET`
-* URL: `/file/:id` when `:id` will be `id` from [fsObject](#mardow-header-fsObject)
+* URL: `/file/:id` when `:id` will be `id` from `fsObject`
 
 ##### Response
 
@@ -126,12 +126,12 @@ This api will be called only for image for display preview.
 
 * Method: `POST`
 * URL: `/directory`
-* Body: `{currentDirectory: "", name: ""}` when `currentDirectory` is `id` of directory from [fsObject](#fsObject) and `name` is name of new directory.
+* Body: `{currentDirectory: "", name: ""}` when `currentDirectory` is `id` of directory from fsObject and `name` is name of new directory.
 
 ##### Response
 
 * Status: 200/204
-* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+* Body: Can be empty or you can be `message`. Please see Response body structure
 
 #### Upload file
 
@@ -141,10 +141,10 @@ In RFManager you can upload multiple files but will be generated this request fo
 
 * Method: `POST`
 * URL: `/file`
-* Body: `{currentDirectory: ""}` and **one** file. `currentDirectory` is `id` from [fsObject](#fsObject)
+* Body: `{currentDirectory: ""}` and **one** file. `currentDirectory` is `id` from fsObject
 
 ##### Response
 
 * Status 200/204
-* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+* Body: Can be empty or you can be `message`. Please see Response body structure
 
