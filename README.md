@@ -1,42 +1,150 @@
 # RFManager - REST File Manager
 
-## API
+## fsObject
 
-Core object for works with API is `fsObject`
+All files and directories in RFManager is represented by `fsObject`. Its structure is:
 
 ```json
 {
-    "path": "",
-    "name": "",
-    "type": "",
-    "mime-type": "",
-    "meta": {
-        "created": "",
-        "modified": "",
-        "size": "",
+    id: "",
+    name: "",
+    type: "",
+    mimeType: "",
+    meta: {
+        created: ""
+        modified: ""
+        size: ""
     }
 }
 ```
 
-* `path` - **REQUIRED** URL encoded path of file or directory.
-* `name` - Name of file or directory. This value will be displayed on list of files. If this value missing name will be used from id *(If `id` will be full path will be used last segment as file name, in others cases will be used `id`)*.
-* `type` - **REQUIRED** Type of `fsObject`. Enabled values are `file` or `directory`
-* `mime-type` - **REQUIRED for files** Mime type of file (for directory is not required)
-* `meta.created` - Time of created file or directory
-* `meta.modified` - Last file or directory update time
-* `meta.size` - Size of file in KB(for directory has no efect)
+* `id` - **REQUIRED** Unique file or directory identifier. This value must be valid URL parameter because will be sended as `:id` argument in requests.
+* `name` - **REQUIRED** Will be displayed in list of files and directories
+* `type` - **REQUIRED** Can be only `file` or `directory`
+* `mimeType` - **REQUIRED for files** MimeType of file. Is required only for files because for directories will be ignored
+* `meta.created` File or directory creation date
+* `meta.modified` Last file or directory update
+* `meta.size` - Expected integer. Size in kB
 
-All `meta` informations is optional
+*All meta values is optional*
 
-### URLs
 
-Base URL format is `/<type>/<id>` for `GET`, `POST`, `UPDATE`, `DELETE` methods when `<type>` is type of `fsObject` file or directory and `<id>` is `id` from `fsObject`
+### Tips
 
-### API docs
+* If you works with real file system, you can encode `id` by `base64`. You get unique string which is valid url argument and can be decodedd. If you works with virtual file system (loaded files from databse for example) you can use its `ids` form database.
 
-Please see [full documentation on apiary.io](http://docs.rfmanager.apiary.io/#)
+### Notes
 
-## Configuration
+* You can add custom fields into this scructure but you can must follow this structure!
 
-* `baseUrl` - Base URL for you API. For example `baseUrl: http://example.com` will be generate `http://example.com/<type>/<id>`
-* `startDirectory`: - Starting directory will be displayed on start RFManager
+## REST API
+
+### Response body structure
+
+RFManager expectds `application/json` with next structure.
+
+#### Success response 
+
+```json
+{
+    data: {}
+    message: {
+        text: "",
+        type: ""
+    }
+}
+```
+
+#### Error response
+```json
+{
+    message: {
+        text: "",
+        type: ""
+    }
+}
+```
+
+* `message` is optional. If is missing will not be displayed.
+* `body` is required only for any requests. Plese see [API](#api)
+
+### API
+
+All request and responses are expected as `json`
+
+#### List of URLs
+
+* `DELETE /file/:id` - [Delete file]()
+* `DELETE /directory/:id` - [Delete directory]()
+* `GET /directory/:id` - [Get content of directory]()
+* `GET /file/:id` - [Get file content]()
+* `POST /directory` - [Create directory]()
+* `POST /file` - [Upload file]()
+
+#### Delete file or directory
+
+##### Request
+
+* Method: `DELETE`
+* URL: `/:type/:id` when `:type` can be `file` or `directory` and `:id` will be `id` from [fsObject](#fsObject)
+
+##### Response
+
+* Status: 200/204
+* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+
+#### Get content of directory
+
+##### Request
+
+* Method: `GET`
+* URL: `/directory/:id` when `:id` will be `id` from [fsObject](#fsObject)
+
+##### Response
+
+* Status 200
+* Body: Expects `body` from [Response body structure]()
+
+#### Get file content
+
+This api will be called only for image for display preview.
+
+##### Request
+
+* Method: `GET`
+* URL: `/file/:id` when `:id` will be `id` from [fsObject](#fsObject)
+
+##### Response
+
+* Status 200
+* Content-Type: image/*
+* Body: displayed image
+
+#### Create directory
+
+##### Request
+
+* Method: `POST`
+* URL: `/directory`
+* Body: `{currentDirectory: "", name: ""}` when `currentDirectory` is `id` of directory from [fsObject](#fsObject) and `name` is name of new directory.
+
+##### Response
+
+* Status: 200/204
+* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+
+#### Upload file
+
+In RFManager you can upload multiple files but will be generated this request for each file. 
+
+##### Request
+
+* Method: `POST`
+* URL: `/file`
+* Body: `{currentDirectory: ""}` and **one** file. `currentDirectory` is `id` from [fsObject](#fsObject)
+
+##### Response
+
+* Status 200/204
+* Body: Can be empty or you can be `message`. Please see [Response body structure]()
+
