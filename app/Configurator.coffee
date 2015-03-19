@@ -8,6 +8,12 @@ class Configurator
 
   configure: (@options) ->
 
+  getBaseUrl: () ->
+    if not @options.baseUrl?
+      throw "Missing baseUrl"
+
+    return @options.baseUrl
+
   getInserter: () ->
     if not @options.inserter?
       throw "Missing inserter"

@@ -5,13 +5,9 @@
 # the license.md file that was distributed with this source code.
 
 reqwest = require "reqwest"
+Configurator = require "../Configurator"
 
 class FsResource
-
-  setBaseUrl: (@baseUrl) ->
-
-  getBaseUrl: () ->
-    return @baseUrl
 
   get: (type, path) ->
     return reqwest @_getOptions(type, "GET", path)
@@ -25,16 +21,18 @@ class FsResource
     return reqwest optios
 
   upload: (form, files, currentDirectory) ->
+    baseUrl = Configurator.getBaseUrl()
     formData = new FormData(form)
     formData.append('currentDirectory', currentDirectory)
     for file in files
       formData.append('file', file)
     xhr = new XMLHttpRequest();
-    xhr.open('POST', "#{@baseUrl}/file", true);
+    xhr.open('POST', "#{baseUrl}/file", true);
     xhr.send(formData);
 
   _getOptions: (type, method, path) ->
-    url = "#{@baseUrl}/#{type}"
+    baseUrl = Configurator.getBaseUrl()
+    url = "#{baseUrl}/#{type}"
     if method != "POST"
       url = "#{url}/#{path}"
     options =
