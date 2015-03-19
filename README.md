@@ -112,7 +112,7 @@ This api will be called only for image for display preview.
 ##### Request
 
 * Method: `GET`
-* URL: `/file/:id` when `:id` will be `id` from [fsObject](#fsObject)
+* URL: `/file/:id` when `:id` will be `id` from [fsObject](#mardow-header-fsObject)
 
 ##### Response
 
