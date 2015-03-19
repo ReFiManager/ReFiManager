@@ -9,7 +9,7 @@ FsObject = require "./utils/FsObject"
 NavigationStorage = require "./storages/NavigationStorage"
 RFManager = require "./components/RFManager"
 FsResource = require "./resources/FsResource"
-Configurator = require "./utils/Configurator"
+Configurator = require "./Configurator"
 
 if not $?
   throw "Missing jQuery!"

@@ -6,7 +6,7 @@
 
 React = require "react"
 SelectionStorage = require "../storages/SelectionStorage"
-Configurator = require "../utils/Configurator"
+Configurator = require "../Configurator"
 
 class Inserter extends React.Component
 
