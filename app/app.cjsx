@@ -9,9 +9,18 @@ FsObject = require "./utils/FsObject"
 NavigationStorage = require "./storages/NavigationStorage"
 ReFiManager = require "./components/ReFiManager"
 Configurator = require "./Configurator"
+HttpClient = require "./http/HttpClient"
 
 if not $?
   throw "Missing jQuery!"
+
+HttpClient.addSuccessCallback (data) ->
+  if data? && typeof data == "object"
+    if data.length == "undefined" # object
+      FsObject.validate data
+    else # array
+      for item in data
+        FsObject.validate item
 
 $.fn.ReFiManager = (options) ->
   Configurator.setOptions options
