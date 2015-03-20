@@ -4,7 +4,6 @@
 # For the full copyright and license information, please view
 # the license.md file that was distributed with this source code.
 
-reqwest = require "reqwest"
 Configurator = require "../Configurator"
 HttpClient = require "../http/HttpClient"
 UrlFactory = require "../http/UrlFactory"
