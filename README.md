@@ -1,4 +1,4 @@
-# RFManager - REST File Manager
+# ReFiManager - REST File Manager
 
 ## Configuration
 
@@ -10,7 +10,7 @@
 ### Example
 
 ```javascript
-$("#manager").RFManager({
+$("#manager").ReFiManager({
     baseUrl: "http://api.example.com/v1",
     startDirectory: "Lw==", // Is "/" encoded by base64
     inserter: function (files) {
@@ -24,7 +24,7 @@ $("#manager").RFManager({
 
 ## fsObject
 
-All files and directories in RFManager is represented by `fsObject`. Its structure is:
+All files and directories in ReFiManager is represented by `fsObject`. Its structure is:
 
 ```json
 {
@@ -63,7 +63,7 @@ All files and directories in RFManager is represented by `fsObject`. Its structu
 
 ### Response body structure
 
-RFManager expectds `application/json` with next structure.
+ReFiManager expectds `application/json` with next structure.
 
 #### Success response 
 
@@ -158,7 +158,7 @@ This api will be called only for image for display preview.
 
 #### Upload file
 
-In RFManager you can upload multiple files but will be generated this request for each file. 
+In ReFiManager you can upload multiple files but will be generated this request for each file. 
 
 ##### Request
 

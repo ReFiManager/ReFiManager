@@ -1,4 +1,4 @@
-# This file is part of the RFManager package.
+# This file is part of the ReFiManager package.
 # (c) Ondřej Záruba <zarubaondra@gmail.com>
 #
 # For the full copyright and license information, please view
@@ -9,7 +9,7 @@ EventEmitter = require("events").EventEmitter
 
 class NavigationStorage extends EventEmitter
 
-  STORAGE_NAME: "RFManager.NavigationStorage"
+  STORAGE_NAME: "ReFiManager.NavigationStorage"
   STORAGE_LIST_KEY: "list"
 
   UPDATE_EVENT: "update"

@@ -1,4 +1,4 @@
-# This file is part of the RFManager package.
+# This file is part of the ReFiManager package.
 # (c) Ondřej Záruba <zarubaondra@gmail.com>
 #
 # For the full copyright and license information, please view
@@ -11,10 +11,10 @@ SelectBar = require "./SelectBar"
 CreateDirectory = require "./CreateDirectory"
 UploadFile = require "./UploadFile"
 
-class RFManager extends React.Component
+class ReFiManager extends React.Component
 
   render: () ->
-    <div className="RFManager">
+    <div className="ReFiManager">
       <div className="navbar navbar-default">
         <div className="navbar-header">
           <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -23,7 +23,7 @@ class RFManager extends React.Component
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">RFManager</a>
+          <a className="navbar-brand" href="#">ReFiManager</a>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <CreateDirectory />
@@ -40,4 +40,4 @@ class RFManager extends React.Component
       <div className="clearfix"></div>
     </div>
 
-module.exports = RFManager
+module.exports = ReFiManager

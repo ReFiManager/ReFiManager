@@ -1,4 +1,4 @@
-# This file is part of the RFManager package.
+# This file is part of the ReFiManager package.
 # (c) Ondřej Záruba <zarubaondra@gmail.com>
 #
 # For the full copyright and license information, please view
@@ -7,14 +7,14 @@
 React = require "react"
 FsObject = require "./utils/FsObject"
 NavigationStorage = require "./storages/NavigationStorage"
-RFManager = require "./components/RFManager"
+ReFiManager = require "./components/ReFiManager"
 Configurator = require "./Configurator"
 
 if not $?
   throw "Missing jQuery!"
 
-$.fn.RFManager = (options) ->
+$.fn.ReFiManager = (options) ->
   Configurator.setOptions options
   fsObject = FsObject.createInitialObject(options.startDirectory)
   NavigationStorage.add fsObject
-  React.render <RFManager />, this[0]
+  React.render <ReFiManager />, this[0]

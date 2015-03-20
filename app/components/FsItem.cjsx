@@ -1,4 +1,4 @@
-# This file is part of the RFManager package.
+# This file is part of the ReFiManager package.
 # (c) Ondřej Záruba <zarubaondra@gmail.com>
 #
 # For the full copyright and license information, please view
@@ -34,7 +34,7 @@ class FsItem extends React.Component
     else
       val = @fsObject.name
     return (
-      <tr className="RFManager-fsItem">
+      <tr className="ReFiManager-fsItem">
         <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
         <td>{val}</td>
         <td><a href="#" className="btn btn-xs btn-danger" onClick={@_deleteItem.bind @}>&times;</a></td>

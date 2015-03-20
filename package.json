@@ -1,13 +1,13 @@
 {
-  "name": "rf-manager",
+  "name": "refimanager",
   "version": "0.0.1",
   "description": "Javascript file manager wokrs as REST client",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:Budry/rfmanager.git"
+    "url": "git@bitbucket.org:Budry/ReFiManager.git"
   },
   "keywords": [
-    "RFManager",
+    "ReFiManager",
     "file",
     "manager",
     "rest"

@@ -1,18 +1,18 @@
 {
-  "name": "rf-manager",
+  "name": "refimanager",
   "version": "0.0.1",
   "authors": [
     "Ondřej Záruba <zarubaondra@gmail.com>"
   ],
   "description": "Javascript file manager wokrs as REST client",
   "keywords": [
-    "RFManager",
+    "ReFiManager",
     "file",
     "manager",
     "rest"
   ],
   "license": "proprietary",
-  "homepage": "https://bitbucket.org/Budry/rfmanager",
+  "homepage": "https://bitbucket.org/Budry/ReFiManager",
   "private": true,
   "devDependencies": {
     "bootstrap": "~3.3.2",
