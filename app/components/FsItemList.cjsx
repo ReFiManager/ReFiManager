@@ -6,8 +6,8 @@
 
 React = require "react"
 FsItem = require "./FsItem"
-FsStorage = require "../storages/FsStorage"
 NavigationStorage = require "../storages/NavigationStorage"
+FsResource = require "../resources/FsResource"
 
 class FsItemList extends React.Component
 
@@ -18,9 +18,11 @@ class FsItemList extends React.Component
 
   componentDidMount: () ->
     NavigationStorage.addUpdateListener(@_onChange.bind @)
-    FsStorage.getDirectoryContent(NavigationStorage.getCurrent().path).then (data) =>
+    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (data) =>
       @setState
         items: data
+    , (err) =>
+      # TODO: Resolve error
 
   componentWillUnmount: () ->
     NavigationStorage.removeUpdateListener(@_onChange.bind @)
@@ -47,8 +49,10 @@ class FsItemList extends React.Component
     </table>
 
   _onChange: () ->
-     FsStorage.getDirectoryContent(NavigationStorage.getCurrent().path).then (data) =>
+    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (data) =>
       @setState
         items: data
+    , (err) =>
+      # TODO: Resolve error
 
 module.exports = FsItemList

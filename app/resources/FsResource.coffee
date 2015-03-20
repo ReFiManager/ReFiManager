@@ -6,40 +6,33 @@
 
 reqwest = require "reqwest"
 Configurator = require "../Configurator"
+HttpClient = require "../http/HttpClient"
+UrlFactory = require "../http/UrlFactory"
+NavigationStorage = require "../storages/NavigationStorage"
 
 class FsResource
 
-  get: (type, path) ->
-    return reqwest @_getOptions(type, "GET", path)
+  getDirectoryContent: (fsObject, successCallback, errorCallback) ->
+    url = UrlFactory.getUrl fsObject.type, fsObject.path
+    HttpClient.get url, null, successCallback, errorCallback
 
-  delete: (type, path) ->
-    return reqwest @_getOptions(type, "DELETE", path)
+  removeItem: (fsObject, successCallback, errorCallback) ->
+    url = UrlFactory.getUrl fsObject.type, fsObject.path
+    HttpClient.delete url, successCallback, errorCallback
 
-  post: (type, data) ->
-    optios = @_getOptions(type, "POST")
-    optios.data = JSON.stringify(data)
-    return reqwest optios
+  createDirectory: (name, successCallback, errorCallback) ->
+    data =
+      currentDirectory: NavigationStorage.getCurrent().path
+      name: name
+    url = UrlFactory.getUrl "directory"
+    HttpClient.post url, JSON.stringify(data), successCallback, errorCallback
 
-  upload: (form, files, currentDirectory) ->
-    baseUrl = Configurator.getBaseUrl()
-    formData = new FormData(form)
-    formData.append('currentDirectory', currentDirectory)
-    for file, i in files
-      formData.append("file_#{i}", file)
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', "#{baseUrl}/file", true);
-    xhr.send(formData);
-
-  _getOptions: (type, method, path) ->
-    baseUrl = Configurator.getBaseUrl()
-    url = "#{baseUrl}/#{type}"
-    if method != "POST"
-      url = "#{url}/#{path}"
-    options =
-      url: url
-      method: method
-      type: "json"
-      contentType: 'application/json'
-    return options
+  uploadFiles: (files, successCallback, errorCallback) ->
+    url = UrlFactory.getUrl "file"
+    for file in files
+      data = new FormData()
+      data.append "currentDirectory", NavigationStorage.getCurrent().path
+      data.append "file", file
+      HttpClient.upload url, data, successCallback, errorCallback
 
 module.exports = new FsResource()

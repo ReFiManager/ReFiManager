@@ -5,7 +5,7 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
-FsStorage = require "../storages/FsStorage"
+FsResource = require "../resources/FsResource"
 NavigationStorage = require "../storages/NavigationStorage"
 
 class UploadFile extends React.Component
@@ -25,10 +25,11 @@ class UploadFile extends React.Component
 
   _onSubmit: (e) ->
     e.preventDefault()
-    FsStorage.uploadFiles(e.target, @state.files)
-    React.findDOMNode(this.refs.file).value = '';
-    NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
-
+    FsResource.uploadFiles @state.files, (data) =>
+      React.findDOMNode(this.refs.file).value = '';
+      NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
+    , (err) ->
+      # TODO: Resolve error
 
   _onChange: (e) ->
     @setState

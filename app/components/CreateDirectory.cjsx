@@ -5,7 +5,7 @@
 # the license.md file that was distributed with this source code.
 
 React = require "react"
-FsStorage = require "../storages/FsStorage"
+FsResource = require "../resources/FsResource"
 NavigationStorage = require "../storages/NavigationStorage"
 
 class CreateDirectory extends React.Component
@@ -30,10 +30,10 @@ class CreateDirectory extends React.Component
 
   _onSubmit: (e) ->
     e.preventDefault()
-    FsStorage.createDirectory(@state.name).then (data) =>
+    FsResource.createDirectory @state.name, (data) =>
       NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
-      React.findDOMNode(this.refs.name).value = '';
-    , (err, msg) ->
-      console.log msg
+      React.findDOMNode(@refs.name).value = '';
+    , (err) ->
+      # TODO: Resolve error
 
 module.exports = CreateDirectory
