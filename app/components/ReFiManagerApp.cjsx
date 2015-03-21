@@ -9,7 +9,7 @@ Navigation = require "./Navigation"
 FsItemList = require "./FsItemList"
 SelectBar = require "./SelectBar"
 CreateDirectoryModal = require "./CreateDirectoryModal"
-UploadFile = require "./UploadFile"
+UploadFileModal = require "./UploadFileModal"
 Messages = require "./Messages"
 MessageDispatcher = require "../dispatchers/MessageDispatcher"
 
@@ -44,7 +44,7 @@ class ReFiManagerApp extends React.Component
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav">
             <li><a href="#" data-toggle="modal" data-target="##{CreateDirectoryModal.MODAL_IDENTIFIER}"><i className="glyphicon glyphicon-plus"></i> Create directory</a></li>
-            <li><a href="#"><i className="glyphicon glyphicon-upload"></i> Upload file</a></li>
+            <li><a href="#" data-toggle="modal" data-target="##{UploadFileModal.MODAL_IDENTIFIER}"><i className="glyphicon glyphicon-upload"></i> Upload file</a></li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#"><i className="glyphicon glyphicon-refresh"></i> Reset</a></li>
@@ -61,6 +61,7 @@ class ReFiManagerApp extends React.Component
       </div>
       <div className="clearfix"></div>
       <CreateDirectoryModal />
+      <UploadFileModal />
     </div>
 
 module.exports = ReFiManagerApp
