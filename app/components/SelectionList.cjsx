@@ -10,7 +10,7 @@ PreviewImage = require "./PreviewImage"
 SelectionStorage = require "../storages/SelectionStorage"
 Inserter = require "./Inserter"
 
-class SelectBar extends React.Component
+class SelectionList extends React.Component
 
   constructor: (props) ->
     super props
@@ -46,4 +46,4 @@ class SelectBar extends React.Component
     @setState
       selectedItems: @getItems()
 
-module.exports = SelectBar
+module.exports = SelectionList

@@ -7,7 +7,7 @@
 React = require "react"
 Navigation = require "./Navigation"
 FsItemList = require "./FsItemList"
-SelectBar = require "./SelectBar"
+SelectionList = require "./SelectionList"
 CreateDirectoryModal = require "./CreateDirectoryModal"
 UploadFileModal = require "./UploadFileModal"
 Messages = require "./Messages"
@@ -52,7 +52,7 @@ class ReFiManagerApp extends React.Component
         </div>
       </div>
       <div className="row">
-        <SelectBar />
+        <SelectionList />
         <div className="col-lg-8">
           {@state.message}
           <Navigation />
