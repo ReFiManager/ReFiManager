@@ -10,9 +10,18 @@ NavigationStorage = require "./storages/NavigationStorage"
 ReFiManager = require "./components/ReFiManager"
 Configurator = require "./Configurator"
 HttpClient = require "./http/HttpClient"
+MessageDispatcher = require "./dispatchers/MessageDispatcher"
 
 if not $?
   throw "Missing jQuery!"
+
+HttpClient.addErrorCallback (data) ->
+  if data? && typeof(data) == "object" && data.message?
+    MessageDispatcher.dispatchMessageEvent data.message.text, data.message.type
+
+HttpClient.addSuccessCallback (data) ->
+  if data? && typeof(data) == "object" && data.message?
+    MessageDispatcher.dispatchMessageEvent data.message.text, data.message.type
 
 HttpClient.addSuccessCallback (data) ->
   if data? && typeof data == "object"

@@ -11,8 +11,23 @@ SelectBar = require "./SelectBar"
 CreateDirectory = require "./CreateDirectory"
 UploadFile = require "./UploadFile"
 Messages = require "./Messages"
+MessageDispatcher = require "../dispatchers/MessageDispatcher"
 
 class ReFiManager extends React.Component
+
+  constructor: (props) ->
+    super props
+    @state =
+      message: false
+
+  componentDidMount: () ->
+    MessageDispatcher.register (payload) =>
+      if payload.event == MessageDispatcher.MESSAGE_EVENT
+        @displayMessage(payload.text, payload.type)
+
+  displayMessage: (text, type) ->
+    @setState
+      message: <Messages text={text} type={type} />
 
   render: () ->
     <div className="ReFiManager">
@@ -34,7 +49,7 @@ class ReFiManager extends React.Component
       <div className="row">
         <SelectBar />
         <div className="col-lg-8">
-          <Messages text="text", type="danger" />
+          {@state.message}
           <Navigation />
           <FsItemList />
         </div>
