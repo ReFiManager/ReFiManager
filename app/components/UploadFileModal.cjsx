@@ -41,6 +41,7 @@ class UploadFileModal extends React.Component
     </div>
 
   _onSubmit: (e) ->
+    $("##{UploadFileModal.MODAL_IDENTIFIER}").modal("hide")
     e.preventDefault()
     FsResource.uploadFiles @state.files, (data) =>
       React.findDOMNode(this.refs.file).value = '';
