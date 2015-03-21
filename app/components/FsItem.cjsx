@@ -32,9 +32,9 @@ class FsItem extends React.Component
 
   render: () ->
     if @fsObject.type == "directory"
-      val = <a href="#" onClick={@_moveInto.bind @}>{Utils.truncate @fsObject.name, @maxLength}</a>
+      val = <a href="#" onClick={@_moveInto.bind @} title={@fsObject.name}>{Utils.truncate @fsObject.name, @maxLength}</a>
     else
-      val = Utils.truncate @fsObject.name, @maxLength
+      val = <span title={@fsObject.name}>{Utils.truncate @fsObject.name, @maxLength}</span>
     return (
       <tr className="ReFiManager-fsItem">
         <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>

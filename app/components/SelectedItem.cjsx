@@ -14,7 +14,7 @@ class SelectedItem extends React.Component
     super props
 
   render: () ->
-    <li className="list-group-item">
+    <li className="list-group-item" title={@props.fsObject.name}>
       {Utils.truncate @props.fsObject.name, 20}
       <a href="#" onClick={@_removeItem.bind @} className="btn btn-xs btn-danger pull-right">&times;</a>
     </li>
