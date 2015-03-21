@@ -41,10 +41,10 @@ class FsResource
       data = new FormData()
       data.append "currentDirectory", NavigationStorage.getCurrent().path
       data.append "file", file
-      successCallback = [
+      _successCallback = [
         successCallback
         () -> FsDispatcher.dispatchChangesStateEvent()
       ]
-      HttpClient.upload url, data, successCallback, errorCallback
+      HttpClient.upload url, data, _successCallback, errorCallback
 
 module.exports = new FsResource()
