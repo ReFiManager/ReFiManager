@@ -10,4 +10,9 @@ class FsDispatcher extends Dispatcher
 
   CHANGE_STATE_EVENT: "change-state-event"
 
+  dispatchChangesStateEvent: () ->
+    @dispatch @CHANGE_STATE_EVENT
+
+
+
 module.exports = new FsDispatcher()
