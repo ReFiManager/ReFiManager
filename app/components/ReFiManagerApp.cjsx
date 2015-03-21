@@ -12,6 +12,7 @@ CreateDirectoryModal = require "./CreateDirectoryModal"
 UploadFileModal = require "./UploadFileModal"
 Messages = require "./Messages"
 MessageDispatcher = require "../dispatchers/MessageDispatcher"
+ResetButton = require "./ResetButton"
 
 class ReFiManagerApp extends React.Component
 
@@ -47,7 +48,7 @@ class ReFiManagerApp extends React.Component
             <li><a href="#" data-toggle="modal" data-target="##{UploadFileModal.MODAL_IDENTIFIER}"><i className="glyphicon glyphicon-upload"></i> Upload file</a></li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
-            <li><a href="#"><i className="glyphicon glyphicon-refresh"></i> Reset</a></li>
+            <li><ResetButton /></li>
           </ul>
         </div>
       </div>

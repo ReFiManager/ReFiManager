@@ -75,4 +75,13 @@ class NavigationStorage
   getList: () ->
     return @storage.session @STORAGE_LIST_KEY
 
+  ###
+  # Clear storage
+  ###
+  clear: () ->
+     root = @storage.session(@STORAGE_LIST_KEY)[0]
+     @storage.session @STORAGE_LIST_KEY, []
+     @add root
+     FsDispatcher.dispatchChangesStateEvent()
+
 module.exports = new NavigationStorage()

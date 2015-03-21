@@ -95,6 +95,13 @@ class SelectionStorage extends EventEmitter
       return null
     return list[index]
 
+  ###
+  # Clear storage
+  ###
+  clear: () ->
+     @storage.session @STORAGE_KEY, []
+     @emit @UPDATE_EVENT
+
   # Events
 
   ###
