@@ -15,7 +15,7 @@ class Messages extends React.Component
       type: props.type
 
   getClass: () ->
-    return "alert  alert-#{@message.type} alert-dismissible"
+    return "alert alert-#{@message.type} alert-dismissible"
 
   render: () ->
     <div className={@getClass()} role="alert">
