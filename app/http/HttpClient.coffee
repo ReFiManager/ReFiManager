@@ -50,7 +50,13 @@ class HttpClient
 
   getCallbacksForRequest: (defaultCallbacks, callback) ->
     result = Utils.arrayCopy defaultCallbacks
-    result.push callback
+    if typeof (callback) == "function"
+      result.push callback
+    else if Array.isArray(callback)
+      for item in callback
+        result.push item
+    else
+      throw "Invalid callback"
     return result
 
 module.exports = new HttpClient()
