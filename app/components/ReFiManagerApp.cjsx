@@ -13,7 +13,7 @@ UploadFile = require "./UploadFile"
 Messages = require "./Messages"
 MessageDispatcher = require "../dispatchers/MessageDispatcher"
 
-class ReFiManager extends React.Component
+class ReFiManagerApp extends React.Component
 
   constructor: (props) ->
     super props
@@ -57,4 +57,4 @@ class ReFiManager extends React.Component
       <div className="clearfix"></div>
     </div>
 
-module.exports = ReFiManager
+module.exports = ReFiManagerApp
