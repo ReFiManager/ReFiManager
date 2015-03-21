@@ -46,7 +46,10 @@ class FsItem extends React.Component
   _deleteItem: (e) ->
     e.preventDefault()
     FsResource.removeItem @fsObject, (data) =>
-      SelectionStorage.remove @fsObject
+      if @fsObject.type == "file"
+        SelectionStorage.remove @fsObject
+      else
+        SelectionStorage.clear()
     , (err) ->
       # TODO: Resolve error
 
