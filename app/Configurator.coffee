@@ -8,6 +8,11 @@ class Configurator
 
   setOptions: (@options) ->
 
+  getElement: () ->
+    if not @options.element
+      throw "Missing target element"
+    return @options.element
+
   getBaseUrl: () ->
     if not @options.baseUrl?
       throw "Missing baseUrl"
