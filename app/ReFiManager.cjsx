@@ -15,6 +15,8 @@ MessageDispatcher = require "./dispatchers/MessageDispatcher"
 class ReFiManager
 
   create: (element, options) ->
+    options = options || {}
+    options.element = element
     @initialize options
     React.render <ReFiManagerApp />, element
 
