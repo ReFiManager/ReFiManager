@@ -13,11 +13,11 @@ FsDispatcher = require "../dispatchers/FsDispatcher"
 class FsResource
 
   getDirectoryContent: (fsObject, successCallback, errorCallback) ->
-    url = UrlFactory.getUrl fsObject.type, fsObject.path
+    url = UrlFactory.getUrl fsObject.type, fsObject.id
     HttpClient.get url, null, successCallback, errorCallback
 
   removeItem: (fsObject, successCallback, errorCallback) ->
-    url = UrlFactory.getUrl fsObject.type, fsObject.path
+    url = UrlFactory.getUrl fsObject.type, fsObject.id
     successCallback = [
       successCallback
       () -> FsDispatcher.dispatchChangesStateEvent()
@@ -26,7 +26,7 @@ class FsResource
 
   createDirectory: (name, successCallback, errorCallback) ->
     data =
-      currentDirectory: NavigationStorage.getCurrent().path
+      currentDirectory: NavigationStorage.getCurrent().id
       name: name
     url = UrlFactory.getUrl "directory"
     successCallback = [
@@ -39,7 +39,7 @@ class FsResource
     url = UrlFactory.getUrl "file"
     for file in files
       data = new FormData()
-      data.append "currentDirectory", NavigationStorage.getCurrent().path
+      data.append "currentDirectory", NavigationStorage.getCurrent().id
       data.append "file", file
       _successCallback = [
         successCallback

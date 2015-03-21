@@ -32,7 +32,7 @@ class FsItemList extends React.Component
   getItems: () ->
     items = []
     for item in @state.items
-      items.push <FsItem key={item.path} fsObject={item} />
+      items.push <FsItem key={item.id} fsObject={item} />
 
     return items
 

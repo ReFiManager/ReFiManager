@@ -28,7 +28,7 @@ class PreviewImage extends React.Component
     if fsObject? && fsObject.mimeType?
       if fsObject.mimeType.match /^image\//
         baseUrl = Configurator.getBaseUrl()
-        src = "#{baseUrl}/file/#{fsObject.path}"
+        src = "#{baseUrl}/file/#{fsObject.id}"
     return src
 
 

@@ -16,9 +16,9 @@ class FsObject
   #
   # @returns fsObject
   ###
-  createInitialObject: (path) ->
+  createInitialObject: (id) ->
     fsObject =
-      path: path
+      id: id
       name: "Root"
       type: @DIRECTORY_TYPE
     @validate fsObject
@@ -26,7 +26,7 @@ class FsObject
 
   validate: (object) ->
     schema = Joi.object().keys
-      path: Joi.string().required()
+      id: Joi.string().required()
       name: Joi.string().optional()
       type: Joi.string().regex(/^file|directory$/).required()
       mimeType: Joi.string().optional()

@@ -55,14 +55,14 @@ class NavigationStorage
   goBack: (wanted) ->
     list = @storage.session @STORAGE_LIST_KEY
     for item, i in list
-      if item.path == wanted.path
+      if item.id == wanted.id
         @storage.session @STORAGE_LIST_KEY, list.slice 0, i + 1
         FsDispatcher.dispatchChangesStateEvent()
         return
 
   exist: (fsObject) ->
     for item in @getList()
-      if item.path == fsObject.path
+      if item.id == fsObject.id
         return true
     return false
 

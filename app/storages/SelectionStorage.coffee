@@ -57,7 +57,7 @@ class SelectionStorage extends EventEmitter
   remove: (fsObject) ->
     list = @getList()
     for item, i in list
-      if item.path == fsObject.path
+      if item.id == fsObject.id
         list.splice i, 1
         break
     @storage.session @STORAGE_KEY, list
@@ -71,7 +71,7 @@ class SelectionStorage extends EventEmitter
   ###
   exist: (fsObject) ->
     for item in @getList()
-      if item.path == fsObject.path
+      if item.id == fsObject.id
         return true
     return false
 

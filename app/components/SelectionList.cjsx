@@ -26,7 +26,7 @@ class SelectionList extends React.Component
   getItems: () ->
     items = []
     for item in SelectionStorage.getList()
-      items.push <SelectedItem key={item.path} fsObject={item} />
+      items.push <SelectedItem key={item.id} fsObject={item} />
     return items
 
   render: () ->
