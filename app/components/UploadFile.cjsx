@@ -6,7 +6,6 @@
 
 React = require "react"
 FsResource = require "../resources/FsResource"
-NavigationStorage = require "../storages/NavigationStorage"
 
 class UploadFile extends React.Component
 
@@ -27,7 +26,6 @@ class UploadFile extends React.Component
     e.preventDefault()
     FsResource.uploadFiles @state.files, (data) =>
       React.findDOMNode(this.refs.file).value = '';
-      NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
     , (err) ->
       # TODO: Resolve error
 

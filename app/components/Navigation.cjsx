@@ -7,6 +7,7 @@
 React = require "react"
 NavigationItem = require "./NavigationItem"
 NavigationStorage = require "../storages/NavigationStorage"
+FsDispatcher = require "../dispatchers/FsDispatcher"
 
 class Navigation extends React.Component
 
@@ -19,13 +20,9 @@ class Navigation extends React.Component
   # Register listener for NavigationStorage update event
   ###
   componentDidMount: () ->
-    NavigationStorage.addUpdateListener(@_onChange);
-
-  ###
-  # Remove listener if component is unmounted
-  ###
-  componentWillUnmount: () ->
-    NavigationStorage.removeUpdateListener(@_onChange.bind @)
+    FsDispatcher.register (payload) =>
+      if payload == FsDispatcher.CHANGE_STATE_EVENT
+        @_onChange()
 
   ###
   # Returns lisf of <NagivationItem /> component

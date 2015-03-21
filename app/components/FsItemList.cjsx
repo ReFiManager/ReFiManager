@@ -8,6 +8,7 @@ React = require "react"
 FsItem = require "./FsItem"
 NavigationStorage = require "../storages/NavigationStorage"
 FsResource = require "../resources/FsResource"
+FsDispatcher = require "../dispatchers/FsDispatcher"
 
 class FsItemList extends React.Component
 
@@ -17,15 +18,14 @@ class FsItemList extends React.Component
       items: []
 
   componentDidMount: () ->
-    NavigationStorage.addUpdateListener(@_onChange.bind @)
+    FsDispatcher.register (payload) =>
+      if payload == FsDispatcher.CHANGE_STATE_EVENT
+        @_onChange()
     FsResource.getDirectoryContent NavigationStorage.getCurrent(), (data) =>
       @setState
         items: data
     , (err) =>
       # TODO: Resolve error
-
-  componentWillUnmount: () ->
-    NavigationStorage.removeUpdateListener(@_onChange.bind @)
 
   getItems: () ->
     items = []

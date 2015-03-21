@@ -6,7 +6,7 @@
 
 React = require "react"
 FsResource = require "../resources/FsResource"
-NavigationStorage = require "../storages/NavigationStorage"
+FsDispatcher = require "../dispatchers/FsDispatcher"
 
 class CreateDirectory extends React.Component
 
@@ -31,7 +31,6 @@ class CreateDirectory extends React.Component
   _onSubmit: (e) ->
     e.preventDefault()
     FsResource.createDirectory @state.name, (data) =>
-      NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
       React.findDOMNode(@refs.name).value = '';
     , (err) ->
       # TODO: Resolve error

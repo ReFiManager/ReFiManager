@@ -46,7 +46,6 @@ class FsItem extends React.Component
     e.preventDefault()
     FsResource.removeItem @fsObject, (data) =>
       SelectionStorage.remove @fsObject
-      NavigationStorage.emit(NavigationStorage.UPDATE_EVENT)
     , (err) ->
       # TODO: Resolve error
 

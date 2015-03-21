@@ -8,6 +8,7 @@ Configurator = require "../Configurator"
 HttpClient = require "../http/HttpClient"
 UrlFactory = require "../http/UrlFactory"
 NavigationStorage = require "../storages/NavigationStorage"
+FsDispatcher = require "../dispatchers/FsDispatcher"
 
 class FsResource
 
@@ -17,6 +18,10 @@ class FsResource
 
   removeItem: (fsObject, successCallback, errorCallback) ->
     url = UrlFactory.getUrl fsObject.type, fsObject.path
+    successCallback = [
+      successCallback
+      () -> FsDispatcher.dispatchChangesStateEvent()
+    ]
     HttpClient.delete url, successCallback, errorCallback
 
   createDirectory: (name, successCallback, errorCallback) ->
@@ -24,6 +29,10 @@ class FsResource
       currentDirectory: NavigationStorage.getCurrent().path
       name: name
     url = UrlFactory.getUrl "directory"
+    successCallback = [
+      successCallback
+      () -> FsDispatcher.dispatchChangesStateEvent()
+    ]
     HttpClient.post url, JSON.stringify(data), successCallback, errorCallback
 
   uploadFiles: (files, successCallback, errorCallback) ->
@@ -32,6 +41,10 @@ class FsResource
       data = new FormData()
       data.append "currentDirectory", NavigationStorage.getCurrent().path
       data.append "file", file
+      successCallback = [
+        successCallback
+        () -> FsDispatcher.dispatchChangesStateEvent()
+      ]
       HttpClient.upload url, data, successCallback, errorCallback
 
 module.exports = new FsResource()
