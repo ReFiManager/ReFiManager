@@ -11,6 +11,7 @@ rename = require "gulp-rename"
 uglify = require "gulp-uglify"
 less = require "gulp-less"
 minifyCSS = require "gulp-minify-css"
+notify = require "gulp-notify"
 
 webpackConfig = require "./build/webpackConfig"
 paths = require "./build/paths"
@@ -28,7 +29,11 @@ gulp.task "scripts", ->
   .pipe webpack(webpackConfig)
   .pipe rename("app.js")
   .pipe(gulpIf(getEnv() == "production", uglify()))
+  .pipe notify "Script is builded"
   .pipe gulp.dest "#{paths.dist.js}"
 
+gulp.task "watch", ->
+  gulp.watch "#{paths.app}/**/*", ["scripts"]
 
-gulp.task "default", ["scripts"]
+gulp.task "build", ["scripts"]
+gulp.task "default", ["build", "watch"]
