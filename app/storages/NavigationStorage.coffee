@@ -6,6 +6,8 @@
 
 store2 = require "store2"
 FsDispatcher = require "../dispatchers/FsDispatcher"
+FsObject = require "../utils/FsObject"
+Configurator = require "../Configurator"
 
 class NavigationStorage
 
@@ -81,7 +83,7 @@ class NavigationStorage
   clear: () ->
      root = @storage.session(@STORAGE_LIST_KEY)[0]
      @storage.session @STORAGE_LIST_KEY, []
-     @add root
+     @add FsObject.createInitialObject(Configurator.getStartDirectory())
      FsDispatcher.dispatchChangesStateEvent()
 
 module.exports = new NavigationStorage()
