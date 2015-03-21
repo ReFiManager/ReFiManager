@@ -30,6 +30,7 @@
     "joi": "~6.0.8",
     "gulp-less": "~3.0.1",
     "gulp-minify-css": "~1.0.0",
-    "flux": "~2.0.1"
+    "flux": "~2.0.1",
+    "gulp-notify": "~2.2.0"
   }
 }
