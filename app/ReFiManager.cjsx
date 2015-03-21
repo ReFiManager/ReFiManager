@@ -23,7 +23,7 @@ class ReFiManager
   initialize: (options) ->
     Configurator.setOptions options
 
-    fsObject = FsObject.createInitialObject(options.startDirectory)
+    fsObject = FsObject.createInitialObject(Configurator.getStartDirectory())
     NavigationStorage.add fsObject
 
     HttpClient.addErrorCallback (data) ->
