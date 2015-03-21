@@ -8,8 +8,6 @@ Dispatcher = require("flux").Dispatcher
 
 class FsDispatcher extends Dispatcher
 
-  UPDATE_EVENT: "update-event"
-
-  CHANGE_DESTINATION_EVENT: "change-destination-event"
+  CHANGE_STATE_EVENT: "change-state-event"
 
 module.exports = new FsDispatcher()
