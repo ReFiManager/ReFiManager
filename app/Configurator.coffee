@@ -25,4 +25,9 @@ class Configurator
 
     return @options.inserter
 
+  getStartDirectory: () ->
+    if not @options.startDirectory?
+      throw "Missing start directory"
+    return @options.startDirectory
+
 module.exports  = new Configurator()
