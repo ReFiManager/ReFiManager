@@ -8,11 +8,12 @@ React = require "react"
 NavigationStorage = require "../storages/NavigationStorage"
 SelectionStorage = require "../storages/SelectionStorage"
 FsResource = require "../resources/FsResource"
-
+Utils = require "../utils/Utils"
 
 class FsItem extends React.Component
 
   fsObject: {}
+  maxLength: 40
 
   constructor: (props) ->
     super props
@@ -31,9 +32,9 @@ class FsItem extends React.Component
 
   render: () ->
     if @fsObject.type == "directory"
-      val = <a href="#" onClick={@_moveInto.bind @}>{@fsObject.name}</a>
+      val = <a href="#" onClick={@_moveInto.bind @}>{Utils.truncate @fsObject.name, @maxLength}</a>
     else
-      val = @fsObject.name
+      val = Utils.truncate @fsObject.name, @maxLength
     return (
       <tr className="ReFiManager-fsItem">
         <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
