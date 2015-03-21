@@ -15,7 +15,6 @@ class CreateDirectoryModal extends React.Component
   constructor: (props) ->
     super props
     @state =
-      displayForm: false
       name: null
 
   render: () ->
