@@ -10,6 +10,7 @@ FsItemList = require "./FsItemList"
 SelectBar = require "./SelectBar"
 CreateDirectory = require "./CreateDirectory"
 UploadFile = require "./UploadFile"
+Messages = require "./Messages"
 
 class ReFiManager extends React.Component
 
@@ -33,6 +34,7 @@ class ReFiManager extends React.Component
       <div className="row">
         <SelectBar />
         <div className="col-lg-8">
+          <Messages text="text", type="danger" />
           <Navigation />
           <FsItemList />
         </div>
