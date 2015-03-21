@@ -21,9 +21,9 @@ class FsItemList extends React.Component
     FsDispatcher.register (payload) =>
       if payload == FsDispatcher.CHANGE_STATE_EVENT
         @_onChange()
-    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (data) =>
+    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (response) =>
       @setState
-        items: data
+        items: response.data
     , (err) =>
       # TODO: Resolve error
 
@@ -49,9 +49,9 @@ class FsItemList extends React.Component
     </table>
 
   _onChange: () ->
-    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (data) =>
+    FsResource.getDirectoryContent NavigationStorage.getCurrent(), (response) =>
       @setState
-        items: data
+        items: response.data
     , (err) =>
       # TODO: Resolve error
 

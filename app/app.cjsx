@@ -23,13 +23,13 @@ HttpClient.addSuccessCallback (data) ->
   if data? && typeof(data) == "object" && data.message?
     MessageDispatcher.dispatchMessageEvent data.message.text, data.message.type
 
-HttpClient.addSuccessCallback (data) ->
-  if data? && data.data?
-    if Array.isArray(data)
-      for item in data
+HttpClient.addSuccessCallback (response) ->
+  if response? && response.data?
+    if Array.isArray(response.data)
+      for item in response.data
         FsObject.validate item
     else
-      FsObject.validate data
+      FsObject.validate response.data
 
 
 $.fn.ReFiManager = (options) ->
