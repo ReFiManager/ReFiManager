@@ -9,6 +9,7 @@ FsItem = require "./FsItem"
 NavigationStorage = require "../storages/NavigationStorage"
 FsResource = require "../resources/FsResource"
 FsDispatcher = require "../dispatchers/FsDispatcher"
+SelectionStorage = require "../storages/SelectionStorage"
 
 class FsItemList extends React.Component
 
@@ -16,6 +17,7 @@ class FsItemList extends React.Component
     super props
     @state =
       items: []
+      checkedAll: false
 
   componentDidMount: () ->
     FsDispatcher.register (payload) =>
@@ -38,7 +40,7 @@ class FsItemList extends React.Component
     <table className="table table-hover">
       <thead>
         <tr>
-          <th></th>
+          <th><input type="checkbox" onChange={@toggleAll.bind @} /></th>
           <th>Name</th>
           <th></th>
         </tr>
@@ -47,6 +49,18 @@ class FsItemList extends React.Component
         {@getItems()}
       </tbody>
     </table>
+
+  toggleAll: (e) ->
+    @setState
+      checkedAll: not @state.checkedAll
+    , () ->
+      if @state.checkedAll
+        for item in @state.items
+          if not SelectionStorage.exist item
+            SelectionStorage.add item
+      else
+        for item in @state.items
+          SelectionStorage.remove item
 
   _onChange: () ->
     FsResource.getDirectoryContent NavigationStorage.getCurrent(), (response) =>
