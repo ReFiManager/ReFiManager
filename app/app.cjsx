@@ -24,12 +24,13 @@ HttpClient.addSuccessCallback (data) ->
     MessageDispatcher.dispatchMessageEvent data.message.text, data.message.type
 
 HttpClient.addSuccessCallback (data) ->
-  if data? && typeof data == "object"
-    if data.length == "undefined" # object
-      FsObject.validate data
-    else # array
+  if data? && data.data?
+    if Array.isArray(data)
       for item in data
         FsObject.validate item
+    else
+      FsObject.validate data
+
 
 $.fn.ReFiManager = (options) ->
   Configurator.setOptions options
