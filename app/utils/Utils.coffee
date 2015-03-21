@@ -12,4 +12,9 @@ class Utils
       result.push item
     return result
 
+  truncate: (input, length) ->
+    if input.length + 3 >= length
+      input = "#{input.substr 0, length}..."
+    return input
+
 module.exports = new Utils()

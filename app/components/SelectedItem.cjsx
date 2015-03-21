@@ -6,6 +6,7 @@
 
 React = require "react"
 SelectionStorage = require "../storages/SelectionStorage"
+Utils = require "../utils/Utils"
 
 class SelectedItem extends React.Component
 
@@ -14,7 +15,7 @@ class SelectedItem extends React.Component
 
   render: () ->
     <li className="list-group-item">
-      {@props.fsObject.name}
+      {Utils.truncate @props.fsObject.name, 20}
       <a href="#" onClick={@_removeItem.bind @} className="btn btn-xs btn-danger pull-right">&times;</a>
     </li>
 
