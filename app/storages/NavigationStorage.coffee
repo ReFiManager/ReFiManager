@@ -5,14 +5,12 @@
 # the license.md file that was distributed with this source code.
 
 store2 = require "store2"
-EventEmitter = require("events").EventEmitter
+FsDispatcher = require "../dispatchers/FsDispatcher"
 
-class NavigationStorage extends EventEmitter
+class NavigationStorage
 
   STORAGE_NAME: "ReFiManager.NavigationStorage"
   STORAGE_LIST_KEY: "list"
-
-  UPDATE_EVENT: "update"
 
   ###
   # Initialize storage and created empty list
@@ -47,7 +45,7 @@ class NavigationStorage extends EventEmitter
       list = @storage.session(@STORAGE_LIST_KEY)
       list.push(fsObject)
       @storage.session(@STORAGE_LIST_KEY, list)
-      @emit(@UPDATE_EVENT)
+      FsDispatcher.dispatchChangesStateEvent()
 
   ###
   # Remove all items after wanted item
@@ -59,7 +57,7 @@ class NavigationStorage extends EventEmitter
     for item, i in list
       if item.path == wanted.path
         @storage.session @STORAGE_LIST_KEY, list.slice 0, i + 1
-        @emit(@UPDATE_EVENT)
+        FsDispatcher.dispatchChangesStateEvent()
         return
 
   exist: (fsObject) ->
@@ -76,23 +74,5 @@ class NavigationStorage extends EventEmitter
   ###
   getList: () ->
     return @storage.session @STORAGE_LIST_KEY
-
-  # Events
-
-  ###
-  # Register update listener
-  #
-  # @param callback
-  ###
-  addUpdateListener: (callback) ->
-    @on @UPDATE_EVENT, callback
-
-  ###
-  # Remove useless listener
-  #
-  # @param callback
-  ###
-  removeUpdateListener: (callback) ->
-    @removeListener(@UPDATE_EVENT, callback);
 
 module.exports = new NavigationStorage()
