@@ -30,7 +30,7 @@ class SelectionList extends React.Component
     return items
 
   render: () ->
-    <div className="col-lg-4" >
+    <div className="col-lg-4" style={maxWidth: "300px"}>
       <PreviewImage />
       <div className="clearfix"></div>
       <hr />
