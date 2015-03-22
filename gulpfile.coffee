@@ -9,8 +9,6 @@ gulpIf = require "gulp-if"
 webpack = require "gulp-webpack"
 rename = require "gulp-rename"
 uglify = require "gulp-uglify"
-less = require "gulp-less"
-minifyCSS = require "gulp-minify-css"
 notify = require "gulp-notify"
 
 webpackConfig = require "./build/webpackConfig"
