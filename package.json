@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git@github.com:ReFiManager/ReFiManager.git"
   },
+  "scripts": {
+    "build": "gulp build --env production"
+  },
   "keywords": [
     "ReFiManager",
     "file",
