@@ -12,7 +12,7 @@
     "rest"
   ],
   "license": "proprietary",
-  "homepage": "https://bitbucket.org/Budry/ReFiManager",
+  "homepage": "https://github.com/ReFiManager/ReFiManager",
   "private": true,
   "devDependencies": {
     "bootstrap": "~3.3.2",

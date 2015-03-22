@@ -4,7 +4,7 @@
   "description": "Javascript file manager wokrs as RESTfull client",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:Budry/ReFiManager.git"
+    "url": "git@github.com:ReFiManager/ReFiManager.git"
   },
   "keywords": [
     "ReFiManager",
