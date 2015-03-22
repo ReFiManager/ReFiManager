@@ -4,7 +4,7 @@
   "authors": [
     "Ondřej Záruba <zarubaondra@gmail.com>"
   ],
-  "description": "Javascript file manager wokrs as REST client",
+  "description": "Javascript file manager wokrs as RESTfull client",
   "keywords": [
     "ReFiManager",
     "file",
