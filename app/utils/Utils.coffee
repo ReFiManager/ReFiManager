@@ -27,6 +27,6 @@ class Utils
     else if (kb = bytes / 1000) > 1 # test if is KB (10^3)
       return "#{parseFloat(kb).toFixed(2)} kB"
     else
-      return "#{parseFloat(b).toFixed(2)} B"
+      return "#{parseFloat(bytes).toFixed(2)} B"
 
 module.exports = new Utils()
