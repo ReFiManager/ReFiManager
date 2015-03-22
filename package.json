@@ -13,8 +13,7 @@
     "rest"
   ],
   "author": "Ondřej Záruba <zarubaondra@gmail.com>",
-  "license": "proprietary",
-  "private": "true",
+  "license": "GPL-2.0",
   "devDependencies": {
     "gulp": "~3.8.11",
     "coffee-script": "~1.9.1",

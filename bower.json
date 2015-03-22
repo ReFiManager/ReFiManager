@@ -11,9 +11,8 @@
     "manager",
     "rest"
   ],
-  "license": "proprietary",
+  "license": "GPL-2.0",
   "homepage": "https://github.com/ReFiManager/ReFiManager",
-  "private": true,
   "devDependencies": {
     "bootstrap": "~3.3.2",
     "font-awesome": "~4.3.0"
