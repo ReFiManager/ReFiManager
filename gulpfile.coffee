@@ -32,8 +32,14 @@ gulp.task "scripts", ->
   .pipe notify "Script is builded"
   .pipe gulp.dest "#{paths.dist.js}"
 
-gulp.task "watch", ->
-  gulp.watch "#{paths.src}/**/*", ["scripts"]
+gulp.task "scripts:min", ->
+  gulp.src "#{paths.dist.js}/app.js"
+  .pipe uglify()
+  .pipe rename("app.min.js")
+  .pipe gulp.dest "#{paths.dist.js}"
 
-gulp.task "build", ["scripts"]
+gulp.task "watch", ->
+  gulp.watch "#{paths.src}/**/*", ["scripts", "scripts:min"]
+
+gulp.task "build", ["scripts", "scripts:min"]
 gulp.task "default", ["build", "watch"]
