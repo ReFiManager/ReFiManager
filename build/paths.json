@@ -1,5 +1,5 @@
 {
-  "app": "app",
+  "app": "src",
   "vendor": "vendor",
   "themes": {
     "bootstrap": "themes/bootstrap"
