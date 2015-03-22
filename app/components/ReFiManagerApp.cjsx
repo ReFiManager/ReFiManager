@@ -28,7 +28,10 @@ class ReFiManagerApp extends React.Component
 
   displayMessage: (text, type) ->
     @setState
-      message: <Messages text={text} type={type} />
+      message: false
+    , () ->
+      @setState
+        message: <Messages text={text} type={type} />
 
   render: () ->
     <div className="ReFiManager">
