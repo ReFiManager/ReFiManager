@@ -10,6 +10,7 @@ SelectionStorage = require "../storages/SelectionStorage"
 FsResource = require "../resources/FsResource"
 Utils = require "../utils/Utils"
 moment = require "moment"
+Configurator = require "../Configurator"
 
 class FsItem extends React.Component
 
@@ -45,6 +46,12 @@ class FsItem extends React.Component
 
     return size
 
+  isDisabled: () ->
+    if Configurator.isMultiselectEnabled()
+      return false
+    else
+      return SelectionStorage.getList().length > 0 && not @state.selected
+
   render: () ->
     if @fsObject.type == "directory"
       val = <a href="#" onClick={@_moveInto.bind @} title={@fsObject.name}>{Utils.truncate @fsObject.name, @maxLength}</a>
@@ -52,7 +59,7 @@ class FsItem extends React.Component
       val = <span title={@fsObject.name}>{Utils.truncate @fsObject.name, @maxLength}</span>
     return (
       <tr className="ReFiManager-fsItem">
-        <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
+        <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @} disabled={@isDisabled()} /></td>
         <td>{val}</td>
         <td>{@getDate()}</td>
         <td>{@getSize()}</td>

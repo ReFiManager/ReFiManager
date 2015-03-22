@@ -292,6 +292,13 @@
 	    return this.options.startDirectory;
 	  };
 
+	  Configurator.prototype.isMultiselectEnabled = function() {
+	    if (this.options.multiselect == null) {
+	      throw "Missing multiselect option";
+	    }
+	    return this.options.multiselect;
+	  };
+
 	  return Configurator;
 
 	})();
@@ -709,21 +716,23 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FsDispatcher, FsItem, FsItemList, FsResource, NavigationStorage, React, SelectionStorage,
+	var Configurator, FsDispatcher, FsItem, FsItemList, FsResource, NavigationStorage, React, SelectionStorage,
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 	React = __webpack_require__(3);
 
-	FsItem = __webpack_require__(26);
+	FsItem = __webpack_require__(22);
 
 	NavigationStorage = __webpack_require__(6);
 
-	FsResource = __webpack_require__(27);
+	FsResource = __webpack_require__(23);
 
 	FsDispatcher = __webpack_require__(17);
 
 	SelectionStorage = __webpack_require__(24);
+
+	Configurator = __webpack_require__(4);
 
 	FsItemList = (function(_super) {
 	  __extends(FsItemList, _super);
@@ -769,6 +778,10 @@
 	    return items;
 	  };
 
+	  FsItemList.prototype.isDisabled = function() {
+	    return !Configurator.isMultiselectEnabled();
+	  };
+
 	  FsItemList.prototype.render = function() {
 	    return React.createElement("table", {
 	      "className": "table table-hover"
@@ -778,7 +791,8 @@
 	      }
 	    }, React.createElement("input", {
 	      "type": "checkbox",
-	      "onChange": this.toggleAll.bind(this)
+	      "onChange": this.toggleAll.bind(this),
+	      "disabled": this.isDisabled()
 	    })), React.createElement("th", null, "Name"), React.createElement("th", {
 	      "style": {
 	        width: "150px"
@@ -848,13 +862,13 @@
 
 	React = __webpack_require__(3);
 
-	SelectedItem = __webpack_require__(22);
+	SelectedItem = __webpack_require__(25);
 
-	PreviewImage = __webpack_require__(23);
+	PreviewImage = __webpack_require__(26);
 
 	SelectionStorage = __webpack_require__(24);
 
-	Inserter = __webpack_require__(25);
+	Inserter = __webpack_require__(27);
 
 	SelectionList = (function(_super) {
 	  __extends(SelectionList, _super);
@@ -926,7 +940,7 @@
 
 	React = __webpack_require__(3);
 
-	FsResource = __webpack_require__(27);
+	FsResource = __webpack_require__(23);
 
 	FsDispatcher = __webpack_require__(17);
 
@@ -1027,7 +1041,7 @@
 
 	React = __webpack_require__(3);
 
-	FsResource = __webpack_require__(27);
+	FsResource = __webpack_require__(23);
 
 	UploadFileModal = (function(_super) {
 	  __extends(UploadFileModal, _super);
@@ -1702,114 +1716,216 @@
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React, SelectedItem, SelectionStorage, Utils,
+	var Configurator, FsItem, FsResource, NavigationStorage, React, SelectionStorage, Utils, moment,
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 	React = __webpack_require__(3);
 
+	NavigationStorage = __webpack_require__(6);
+
 	SelectionStorage = __webpack_require__(24);
+
+	FsResource = __webpack_require__(23);
 
 	Utils = __webpack_require__(20);
 
-	SelectedItem = (function(_super) {
-	  __extends(SelectedItem, _super);
+	moment = __webpack_require__(120);
 
-	  function SelectedItem(props) {
-	    SelectedItem.__super__.constructor.call(this, props);
+	Configurator = __webpack_require__(4);
+
+	FsItem = (function(_super) {
+	  __extends(FsItem, _super);
+
+	  FsItem.prototype.fsObject = {};
+
+	  FsItem.prototype.maxLength = 40;
+
+	  function FsItem(props) {
+	    FsItem.__super__.constructor.call(this, props);
+	    this.fsObject = props.fsObject;
+	    this.state = {
+	      selected: this.isSelected()
+	    };
 	  }
 
-	  SelectedItem.prototype.render = function() {
-	    return React.createElement("li", {
-	      "className": "list-group-item",
-	      "title": this.props.fsObject.name
-	    }, Utils.truncate(this.props.fsObject.name, 20), React.createElement("a", {
+	  FsItem.prototype.componentDidMount = function() {
+	    return SelectionStorage.addUpdateListener(this._onChange.bind(this));
+	  };
+
+	  FsItem.prototype.componentWillUnmount = function() {
+	    return SelectionStorage.removeUpdateListener(this._onChange.bind(this));
+	  };
+
+	  FsItem.prototype.isSelected = function() {
+	    return SelectionStorage.exist(this.fsObject);
+	  };
+
+	  FsItem.prototype.getDate = function() {
+	    var date;
+	    date = "";
+	    if ((this.fsObject.meta != null) && (this.fsObject.meta.created != null)) {
+	      date = moment(this.fsObject.meta.created, "X").format("DD.MM.YYYY HH:mm:ss");
+	    }
+	    return date;
+	  };
+
+	  FsItem.prototype.getSize = function() {
+	    var size;
+	    size = "";
+	    if ((this.fsObject.meta != null) && (this.fsObject.meta.size != null) && this.fsObject.type !== "directory") {
+	      size = Utils.byteToReadbleFormat(this.fsObject.meta.size);
+	    }
+	    return size;
+	  };
+
+	  FsItem.prototype.isDisabled = function() {
+	    if (Configurator.isMultiselectEnabled()) {
+	      return false;
+	    } else {
+	      return SelectionStorage.getList().length > 0 && !this.state.selected;
+	    }
+	  };
+
+	  FsItem.prototype.render = function() {
+	    var val;
+	    if (this.fsObject.type === "directory") {
+	      val = React.createElement("a", {
+	        "href": "#",
+	        "onClick": this._moveInto.bind(this),
+	        "title": this.fsObject.name
+	      }, Utils.truncate(this.fsObject.name, this.maxLength));
+	    } else {
+	      val = React.createElement("span", {
+	        "title": this.fsObject.name
+	      }, Utils.truncate(this.fsObject.name, this.maxLength));
+	    }
+	    return React.createElement("tr", {
+	      "className": "ReFiManager-fsItem"
+	    }, React.createElement("td", null, React.createElement("input", {
+	      "type": "checkbox",
+	      "checked": this.state.selected,
+	      "onChange": this._onToggleSelect.bind(this),
+	      "disabled": this.isDisabled()
+	    })), React.createElement("td", null, val), React.createElement("td", null, this.getDate()), React.createElement("td", null, this.getSize()), React.createElement("td", null, React.createElement("a", {
 	      "href": "#",
-	      "onClick": this._removeItem.bind(this),
-	      "className": "btn btn-xs btn-danger pull-right"
-	    }, "\u00d7"));
+	      "className": "btn btn-xs btn-danger",
+	      "onClick": this._deleteItem.bind(this)
+	    }, "\u00d7")));
 	  };
 
-	  SelectedItem.prototype._removeItem = function(e) {
-	    SelectionStorage.remove(this.props.fsObject);
-	    return e.stopPropagation();
+	  FsItem.prototype._deleteItem = function(e) {
+	    e.preventDefault();
+	    return FsResource.removeItem(this.fsObject, (function(_this) {
+	      return function(data) {
+	        if (_this.fsObject.type === "file") {
+	          return SelectionStorage.remove(_this.fsObject);
+	        } else {
+	          return SelectionStorage.clear();
+	        }
+	      };
+	    })(this), function(err) {});
 	  };
 
-	  return SelectedItem;
+	  FsItem.prototype._onChange = function() {
+	    return this.setState({
+	      selected: this.isSelected()
+	    });
+	  };
+
+	  FsItem.prototype._onToggleSelect = function() {
+	    return SelectionStorage.toggle(this.fsObject);
+	  };
+
+	  FsItem.prototype._moveInto = function(e) {
+	    if (this.fsObject.type === "directory") {
+	      NavigationStorage.add(this.fsObject);
+	      return e.stopPropagation();
+	    }
+	  };
+
+	  return FsItem;
 
 	})(React.Component);
 
-	module.exports = SelectedItem;
+	module.exports = FsItem;
 
 
 /***/ },
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Configurator, PreviewImage, React, SelectionStorage,
-	  __hasProp = {}.hasOwnProperty,
-	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-	React = __webpack_require__(3);
-
-	SelectionStorage = __webpack_require__(24);
+	var Configurator, FsDispatcher, FsResource, HttpClient, NavigationStorage, UrlFactory;
 
 	Configurator = __webpack_require__(4);
 
-	PreviewImage = (function(_super) {
-	  __extends(PreviewImage, _super);
+	HttpClient = __webpack_require__(7);
 
-	  function PreviewImage(props) {
-	    var fsObject;
-	    PreviewImage.__super__.constructor.call(this, props);
-	    fsObject = SelectionStorage.getLastAdded();
-	    this.state = {
-	      fsObject: fsObject,
-	      src: this.getSrc(fsObject)
-	    };
-	  }
+	UrlFactory = __webpack_require__(19);
 
-	  PreviewImage.prototype.componentDidMount = function() {
-	    return SelectionStorage.addUpdateListener(this._onChange.bind(this));
+	NavigationStorage = __webpack_require__(6);
+
+	FsDispatcher = __webpack_require__(17);
+
+	FsResource = (function() {
+	  function FsResource() {}
+
+	  FsResource.prototype.getDirectoryContent = function(fsObject, successCallback, errorCallback) {
+	    var url;
+	    url = UrlFactory.getUrl(fsObject.type, fsObject.id);
+	    return HttpClient.get(url, null, successCallback, errorCallback);
 	  };
 
-	  PreviewImage.prototype.componentWillUnmount = function() {
-	    return SelectionStorage.removeUpdateListener(this._onChange.bind(this));
-	  };
-
-	  PreviewImage.prototype.getSrc = function(fsObject) {
-	    var baseUrl, src;
-	    src = "data:image/png;base64,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";
-	    if ((fsObject != null) && (fsObject.mimeType != null)) {
-	      if (fsObject.mimeType.match(/^image\//)) {
-	        baseUrl = Configurator.getBaseUrl();
-	        src = "" + baseUrl + "/file/" + fsObject.id;
+	  FsResource.prototype.removeItem = function(fsObject, successCallback, errorCallback) {
+	    var url;
+	    url = UrlFactory.getUrl(fsObject.type, fsObject.id);
+	    successCallback = [
+	      successCallback, function() {
+	        return FsDispatcher.dispatchChangesStateEvent();
 	      }
+	    ];
+	    return HttpClient["delete"](url, successCallback, errorCallback);
+	  };
+
+	  FsResource.prototype.createDirectory = function(name, successCallback, errorCallback) {
+	    var data, url;
+	    data = {
+	      currentDirectory: NavigationStorage.getCurrent().id,
+	      name: name
+	    };
+	    url = UrlFactory.getUrl("directory");
+	    successCallback = [
+	      successCallback, function() {
+	        return FsDispatcher.dispatchChangesStateEvent();
+	      }
+	    ];
+	    return HttpClient.post(url, JSON.stringify(data), successCallback, errorCallback);
+	  };
+
+	  FsResource.prototype.uploadFiles = function(files, successCallback, errorCallback) {
+	    var _successCallback, data, file, i, len, results, url;
+	    url = UrlFactory.getUrl("file");
+	    results = [];
+	    for (i = 0, len = files.length; i < len; i++) {
+	      file = files[i];
+	      data = new FormData();
+	      data.append("currentDirectory", NavigationStorage.getCurrent().id);
+	      data.append("file", file);
+	      _successCallback = [
+	        successCallback, function() {
+	          return FsDispatcher.dispatchChangesStateEvent();
+	        }
+	      ];
+	      results.push(HttpClient.upload(url, data, _successCallback, errorCallback));
 	    }
-	    return src;
+	    return results;
 	  };
 
-	  PreviewImage.prototype.render = function() {
-	    return React.createElement("img", {
-	      "src": this.state.src,
-	      "className": "col-lg-12"
-	    });
-	  };
+	  return FsResource;
 
-	  PreviewImage.prototype._onChange = function() {
-	    var fsObject;
-	    fsObject = SelectionStorage.getLastAdded();
-	    return this.setState({
-	      fsObject: fsObject,
-	      src: this.getSrc(fsObject)
-	    });
-	  };
+	})();
 
-	  return PreviewImage;
-
-	})(React.Component);
-
-	module.exports = PreviewImage;
+	module.exports = new FsResource();
 
 
 /***/ },
@@ -1992,6 +2108,120 @@
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React, SelectedItem, SelectionStorage, Utils,
+	  __hasProp = {}.hasOwnProperty,
+	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+	React = __webpack_require__(3);
+
+	SelectionStorage = __webpack_require__(24);
+
+	Utils = __webpack_require__(20);
+
+	SelectedItem = (function(_super) {
+	  __extends(SelectedItem, _super);
+
+	  function SelectedItem(props) {
+	    SelectedItem.__super__.constructor.call(this, props);
+	  }
+
+	  SelectedItem.prototype.render = function() {
+	    return React.createElement("li", {
+	      "className": "list-group-item",
+	      "title": this.props.fsObject.name
+	    }, Utils.truncate(this.props.fsObject.name, 20), React.createElement("a", {
+	      "href": "#",
+	      "onClick": this._removeItem.bind(this),
+	      "className": "btn btn-xs btn-danger pull-right"
+	    }, "\u00d7"));
+	  };
+
+	  SelectedItem.prototype._removeItem = function(e) {
+	    SelectionStorage.remove(this.props.fsObject);
+	    return e.stopPropagation();
+	  };
+
+	  return SelectedItem;
+
+	})(React.Component);
+
+	module.exports = SelectedItem;
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Configurator, PreviewImage, React, SelectionStorage,
+	  __hasProp = {}.hasOwnProperty,
+	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+	React = __webpack_require__(3);
+
+	SelectionStorage = __webpack_require__(24);
+
+	Configurator = __webpack_require__(4);
+
+	PreviewImage = (function(_super) {
+	  __extends(PreviewImage, _super);
+
+	  function PreviewImage(props) {
+	    var fsObject;
+	    PreviewImage.__super__.constructor.call(this, props);
+	    fsObject = SelectionStorage.getLastAdded();
+	    this.state = {
+	      fsObject: fsObject,
+	      src: this.getSrc(fsObject)
+	    };
+	  }
+
+	  PreviewImage.prototype.componentDidMount = function() {
+	    return SelectionStorage.addUpdateListener(this._onChange.bind(this));
+	  };
+
+	  PreviewImage.prototype.componentWillUnmount = function() {
+	    return SelectionStorage.removeUpdateListener(this._onChange.bind(this));
+	  };
+
+	  PreviewImage.prototype.getSrc = function(fsObject) {
+	    var baseUrl, src;
+	    src = "data:image/png;base64,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";
+	    if ((fsObject != null) && (fsObject.mimeType != null)) {
+	      if (fsObject.mimeType.match(/^image\//)) {
+	        baseUrl = Configurator.getBaseUrl();
+	        src = "" + baseUrl + "/file/" + fsObject.id;
+	      }
+	    }
+	    return src;
+	  };
+
+	  PreviewImage.prototype.render = function() {
+	    return React.createElement("img", {
+	      "src": this.state.src,
+	      "className": "col-lg-12"
+	    });
+	  };
+
+	  PreviewImage.prototype._onChange = function() {
+	    var fsObject;
+	    fsObject = SelectionStorage.getLastAdded();
+	    return this.setState({
+	      fsObject: fsObject,
+	      src: this.getSrc(fsObject)
+	    });
+	  };
+
+	  return PreviewImage;
+
+	})(React.Component);
+
+	module.exports = PreviewImage;
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var Configurator, Inserter, React, SelectionStorage,
 	  __hasProp = {}.hasOwnProperty,
 	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2029,211 +2259,6 @@
 	})(React.Component);
 
 	module.exports = Inserter;
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var FsItem, FsResource, NavigationStorage, React, SelectionStorage, Utils, moment,
-	  __hasProp = {}.hasOwnProperty,
-	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-	React = __webpack_require__(3);
-
-	NavigationStorage = __webpack_require__(6);
-
-	SelectionStorage = __webpack_require__(24);
-
-	FsResource = __webpack_require__(27);
-
-	Utils = __webpack_require__(20);
-
-	moment = __webpack_require__(120);
-
-	FsItem = (function(_super) {
-	  __extends(FsItem, _super);
-
-	  FsItem.prototype.fsObject = {};
-
-	  FsItem.prototype.maxLength = 40;
-
-	  function FsItem(props) {
-	    FsItem.__super__.constructor.call(this, props);
-	    this.fsObject = props.fsObject;
-	    this.state = {
-	      selected: this.isSelected()
-	    };
-	  }
-
-	  FsItem.prototype.componentDidMount = function() {
-	    return SelectionStorage.addUpdateListener(this._onChange.bind(this));
-	  };
-
-	  FsItem.prototype.componentWillUnmount = function() {
-	    return SelectionStorage.removeUpdateListener(this._onChange.bind(this));
-	  };
-
-	  FsItem.prototype.isSelected = function() {
-	    return SelectionStorage.exist(this.fsObject);
-	  };
-
-	  FsItem.prototype.getDate = function() {
-	    var date;
-	    date = "";
-	    if ((this.fsObject.meta != null) && (this.fsObject.meta.created != null)) {
-	      date = moment(this.fsObject.meta.created, "X").format("DD.MM.YYYY HH:mm:ss");
-	    }
-	    return date;
-	  };
-
-	  FsItem.prototype.getSize = function() {
-	    var size;
-	    size = "";
-	    if ((this.fsObject.meta != null) && (this.fsObject.meta.size != null) && this.fsObject.type !== "directory") {
-	      size = Utils.byteToReadbleFormat(this.fsObject.meta.size);
-	    }
-	    return size;
-	  };
-
-	  FsItem.prototype.render = function() {
-	    var val;
-	    if (this.fsObject.type === "directory") {
-	      val = React.createElement("a", {
-	        "href": "#",
-	        "onClick": this._moveInto.bind(this),
-	        "title": this.fsObject.name
-	      }, Utils.truncate(this.fsObject.name, this.maxLength));
-	    } else {
-	      val = React.createElement("span", {
-	        "title": this.fsObject.name
-	      }, Utils.truncate(this.fsObject.name, this.maxLength));
-	    }
-	    return React.createElement("tr", {
-	      "className": "ReFiManager-fsItem"
-	    }, React.createElement("td", null, React.createElement("input", {
-	      "type": "checkbox",
-	      "checked": this.state.selected,
-	      "onChange": this._onToggleSelect.bind(this)
-	    })), React.createElement("td", null, val), React.createElement("td", null, this.getDate()), React.createElement("td", null, this.getSize()), React.createElement("td", null, React.createElement("a", {
-	      "href": "#",
-	      "className": "btn btn-xs btn-danger",
-	      "onClick": this._deleteItem.bind(this)
-	    }, "\u00d7")));
-	  };
-
-	  FsItem.prototype._deleteItem = function(e) {
-	    e.preventDefault();
-	    return FsResource.removeItem(this.fsObject, (function(_this) {
-	      return function(data) {
-	        if (_this.fsObject.type === "file") {
-	          return SelectionStorage.remove(_this.fsObject);
-	        } else {
-	          return SelectionStorage.clear();
-	        }
-	      };
-	    })(this), function(err) {});
-	  };
-
-	  FsItem.prototype._onChange = function() {
-	    return this.setState({
-	      selected: this.isSelected()
-	    });
-	  };
-
-	  FsItem.prototype._onToggleSelect = function() {
-	    return SelectionStorage.toggle(this.fsObject);
-	  };
-
-	  FsItem.prototype._moveInto = function(e) {
-	    if (this.fsObject.type === "directory") {
-	      NavigationStorage.add(this.fsObject);
-	      return e.stopPropagation();
-	    }
-	  };
-
-	  return FsItem;
-
-	})(React.Component);
-
-	module.exports = FsItem;
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Configurator, FsDispatcher, FsResource, HttpClient, NavigationStorage, UrlFactory;
-
-	Configurator = __webpack_require__(4);
-
-	HttpClient = __webpack_require__(7);
-
-	UrlFactory = __webpack_require__(19);
-
-	NavigationStorage = __webpack_require__(6);
-
-	FsDispatcher = __webpack_require__(17);
-
-	FsResource = (function() {
-	  function FsResource() {}
-
-	  FsResource.prototype.getDirectoryContent = function(fsObject, successCallback, errorCallback) {
-	    var url;
-	    url = UrlFactory.getUrl(fsObject.type, fsObject.id);
-	    return HttpClient.get(url, null, successCallback, errorCallback);
-	  };
-
-	  FsResource.prototype.removeItem = function(fsObject, successCallback, errorCallback) {
-	    var url;
-	    url = UrlFactory.getUrl(fsObject.type, fsObject.id);
-	    successCallback = [
-	      successCallback, function() {
-	        return FsDispatcher.dispatchChangesStateEvent();
-	      }
-	    ];
-	    return HttpClient["delete"](url, successCallback, errorCallback);
-	  };
-
-	  FsResource.prototype.createDirectory = function(name, successCallback, errorCallback) {
-	    var data, url;
-	    data = {
-	      currentDirectory: NavigationStorage.getCurrent().id,
-	      name: name
-	    };
-	    url = UrlFactory.getUrl("directory");
-	    successCallback = [
-	      successCallback, function() {
-	        return FsDispatcher.dispatchChangesStateEvent();
-	      }
-	    ];
-	    return HttpClient.post(url, JSON.stringify(data), successCallback, errorCallback);
-	  };
-
-	  FsResource.prototype.uploadFiles = function(files, successCallback, errorCallback) {
-	    var _successCallback, data, file, i, len, results, url;
-	    url = UrlFactory.getUrl("file");
-	    results = [];
-	    for (i = 0, len = files.length; i < len; i++) {
-	      file = files[i];
-	      data = new FormData();
-	      data.append("currentDirectory", NavigationStorage.getCurrent().id);
-	      data.append("file", file);
-	      _successCallback = [
-	        successCallback, function() {
-	          return FsDispatcher.dispatchChangesStateEvent();
-	        }
-	      ];
-	      results.push(HttpClient.upload(url, data, _successCallback, errorCallback));
-	    }
-	    return results;
-	  };
-
-	  return FsResource;
-
-	})();
-
-	module.exports = new FsResource();
 
 
 /***/ },
@@ -36174,7 +36199,7 @@
 
 	"use strict";
 
-	var camelize = __webpack_require__(286);
+	var camelize = __webpack_require__(287);
 
 	var msPattern = /^-ms-/;
 
@@ -36282,7 +36307,7 @@
 
 	"use strict";
 
-	var hyphenate = __webpack_require__(287);
+	var hyphenate = __webpack_require__(286);
 
 	var msPattern = /^ms-/;
 
@@ -43054,42 +43079,6 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule camelize
-	 * @typechecks
-	 */
-
-	var _hyphenPattern = /-(.)/g;
-
-	/**
-	 * Camelcases a hyphenated string, for example:
-	 *
-	 *   > camelize('background-color')
-	 *   < "backgroundColor"
-	 *
-	 * @param {string} string
-	 * @return {string}
-	 */
-	function camelize(string) {
-	  return string.replace(_hyphenPattern, function(_, character) {
-	    return character.toUpperCase();
-	  });
-	}
-
-	module.exports = camelize;
-
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
 	 * @providesModule hyphenate
 	 * @typechecks
 	 */
@@ -43113,6 +43102,42 @@
 	}
 
 	module.exports = hyphenate;
+
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule camelize
+	 * @typechecks
+	 */
+
+	var _hyphenPattern = /-(.)/g;
+
+	/**
+	 * Camelcases a hyphenated string, for example:
+	 *
+	 *   > camelize('background-color')
+	 *   < "backgroundColor"
+	 *
+	 * @param {string} string
+	 * @return {string}
+	 */
+	function camelize(string) {
+	  return string.replace(_hyphenPattern, function(_, character) {
+	    return character.toUpperCase();
+	  });
+	}
+
+	module.exports = camelize;
 
 
 /***/ },
@@ -45417,7 +45442,7 @@
 	 * @typechecks
 	 */
 
-	var toArray = __webpack_require__(386);
+	var toArray = __webpack_require__(382);
 
 	/**
 	 * Perform a heuristic test to determine if an object is "array-like".
@@ -45495,7 +45520,7 @@
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(382)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(383)
 
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -45506,9 +45531,9 @@
 	    ].join('\n'))
 	}
 
-	exports.createHash = __webpack_require__(383)
+	exports.createHash = __webpack_require__(384)
 
-	exports.createHmac = __webpack_require__(384)
+	exports.createHmac = __webpack_require__(385)
 
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -45529,7 +45554,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 
-	var p = __webpack_require__(385)(exports)
+	var p = __webpack_require__(386)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 
@@ -53985,144 +54010,6 @@
 /* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
-	  var g = ('undefined' === typeof window ? global : window) || {}
-	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(388)
-	  )
-	  module.exports = function(size) {
-	    // Modern Browsers
-	    if(_crypto.getRandomValues) {
-	      var bytes = new Buffer(size); //in browserify, this is an extended Uint8Array
-	      /* This will not work in older browsers.
-	       * See https://developer.mozilla.org/en-US/docs/Web/API/window.crypto.getRandomValues
-	       */
-	    
-	      _crypto.getRandomValues(bytes);
-	      return bytes;
-	    }
-	    else if (_crypto.randomBytes) {
-	      return _crypto.randomBytes(size)
-	    }
-	    else
-	      throw new Error(
-	        'secure random number generation not supported by this browser\n'+
-	        'use chrome, FireFox or Internet Explorer 11'
-	      )
-	  }
-	}())
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(279).Buffer))
-
-/***/ },
-/* 383 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(391)
-
-	var md5 = toConstructor(__webpack_require__(389))
-	var rmd160 = toConstructor(__webpack_require__(393))
-
-	function toConstructor (fn) {
-	  return function () {
-	    var buffers = []
-	    var m= {
-	      update: function (data, enc) {
-	        if(!Buffer.isBuffer(data)) data = new Buffer(data, enc)
-	        buffers.push(data)
-	        return this
-	      },
-	      digest: function (enc) {
-	        var buf = Buffer.concat(buffers)
-	        var r = fn(buf)
-	        buffers = null
-	        return enc ? r.toString(enc) : r
-	      }
-	    }
-	    return m
-	  }
-	}
-
-	module.exports = function (alg) {
-	  if('md5' === alg) return new md5()
-	  if('rmd160' === alg) return new rmd160()
-	  return createHash(alg)
-	}
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(279).Buffer))
-
-/***/ },
-/* 384 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(383)
-
-	var zeroBuffer = new Buffer(128)
-	zeroBuffer.fill(0)
-
-	module.exports = Hmac
-
-	function Hmac (alg, key) {
-	  if(!(this instanceof Hmac)) return new Hmac(alg, key)
-	  this._opad = opad
-	  this._alg = alg
-
-	  var blocksize = (alg === 'sha512') ? 128 : 64
-
-	  key = this._key = !Buffer.isBuffer(key) ? new Buffer(key) : key
-
-	  if(key.length > blocksize) {
-	    key = createHash(alg).update(key).digest()
-	  } else if(key.length < blocksize) {
-	    key = Buffer.concat([key, zeroBuffer], blocksize)
-	  }
-
-	  var ipad = this._ipad = new Buffer(blocksize)
-	  var opad = this._opad = new Buffer(blocksize)
-
-	  for(var i = 0; i < blocksize; i++) {
-	    ipad[i] = key[i] ^ 0x36
-	    opad[i] = key[i] ^ 0x5C
-	  }
-
-	  this._hash = createHash(alg).update(ipad)
-	}
-
-	Hmac.prototype.update = function (data, enc) {
-	  this._hash.update(data, enc)
-	  return this
-	}
-
-	Hmac.prototype.digest = function (enc) {
-	  var h = this._hash.digest()
-	  return createHash(this._alg).update(this._opad).update(h).digest(enc)
-	}
-
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(279).Buffer))
-
-/***/ },
-/* 385 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var pbkdf2Export = __webpack_require__(392)
-
-	module.exports = function (crypto, exports) {
-	  exports = exports || {}
-
-	  var exported = pbkdf2Export(crypto)
-
-	  exports.pbkdf2 = exported.pbkdf2
-	  exports.pbkdf2Sync = exported.pbkdf2Sync
-
-	  return exports
-	}
-
-
-/***/ },
-/* 386 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-2015, Facebook, Inc.
 	 * All rights reserved.
@@ -54193,6 +54080,144 @@
 	module.exports = toArray;
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52)))
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
+	  var g = ('undefined' === typeof window ? global : window) || {}
+	  _crypto = (
+	    g.crypto || g.msCrypto || __webpack_require__(388)
+	  )
+	  module.exports = function(size) {
+	    // Modern Browsers
+	    if(_crypto.getRandomValues) {
+	      var bytes = new Buffer(size); //in browserify, this is an extended Uint8Array
+	      /* This will not work in older browsers.
+	       * See https://developer.mozilla.org/en-US/docs/Web/API/window.crypto.getRandomValues
+	       */
+	    
+	      _crypto.getRandomValues(bytes);
+	      return bytes;
+	    }
+	    else if (_crypto.randomBytes) {
+	      return _crypto.randomBytes(size)
+	    }
+	    else
+	      throw new Error(
+	        'secure random number generation not supported by this browser\n'+
+	        'use chrome, FireFox or Internet Explorer 11'
+	      )
+	  }
+	}())
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(279).Buffer))
+
+/***/ },
+/* 384 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(391)
+
+	var md5 = toConstructor(__webpack_require__(389))
+	var rmd160 = toConstructor(__webpack_require__(393))
+
+	function toConstructor (fn) {
+	  return function () {
+	    var buffers = []
+	    var m= {
+	      update: function (data, enc) {
+	        if(!Buffer.isBuffer(data)) data = new Buffer(data, enc)
+	        buffers.push(data)
+	        return this
+	      },
+	      digest: function (enc) {
+	        var buf = Buffer.concat(buffers)
+	        var r = fn(buf)
+	        buffers = null
+	        return enc ? r.toString(enc) : r
+	      }
+	    }
+	    return m
+	  }
+	}
+
+	module.exports = function (alg) {
+	  if('md5' === alg) return new md5()
+	  if('rmd160' === alg) return new rmd160()
+	  return createHash(alg)
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(279).Buffer))
+
+/***/ },
+/* 385 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(384)
+
+	var zeroBuffer = new Buffer(128)
+	zeroBuffer.fill(0)
+
+	module.exports = Hmac
+
+	function Hmac (alg, key) {
+	  if(!(this instanceof Hmac)) return new Hmac(alg, key)
+	  this._opad = opad
+	  this._alg = alg
+
+	  var blocksize = (alg === 'sha512') ? 128 : 64
+
+	  key = this._key = !Buffer.isBuffer(key) ? new Buffer(key) : key
+
+	  if(key.length > blocksize) {
+	    key = createHash(alg).update(key).digest()
+	  } else if(key.length < blocksize) {
+	    key = Buffer.concat([key, zeroBuffer], blocksize)
+	  }
+
+	  var ipad = this._ipad = new Buffer(blocksize)
+	  var opad = this._opad = new Buffer(blocksize)
+
+	  for(var i = 0; i < blocksize; i++) {
+	    ipad[i] = key[i] ^ 0x36
+	    opad[i] = key[i] ^ 0x5C
+	  }
+
+	  this._hash = createHash(alg).update(ipad)
+	}
+
+	Hmac.prototype.update = function (data, enc) {
+	  this._hash.update(data, enc)
+	  return this
+	}
+
+	Hmac.prototype.digest = function (enc) {
+	  var h = this._hash.digest()
+	  return createHash(this._alg).update(this._opad).update(h).digest(enc)
+	}
+
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(279).Buffer))
+
+/***/ },
+/* 386 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var pbkdf2Export = __webpack_require__(392)
+
+	module.exports = function (crypto, exports) {
+	  exports = exports || {}
+
+	  var exported = pbkdf2Export(crypto)
+
+	  exports.pbkdf2 = exported.pbkdf2
+	  exports.pbkdf2Sync = exported.pbkdf2Sync
+
+	  return exports
+	}
+
 
 /***/ },
 /* 387 */

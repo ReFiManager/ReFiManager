@@ -30,4 +30,10 @@ class Configurator
       throw "Missing start directory"
     return @options.startDirectory
 
+  isMultiselectEnabled: () ->
+    if not @options.multiselect?
+      throw "Missing multiselect option"
+
+    return @options.multiselect
+
 module.exports  = new Configurator()

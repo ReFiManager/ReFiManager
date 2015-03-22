@@ -10,6 +10,7 @@ NavigationStorage = require "../storages/NavigationStorage"
 FsResource = require "../resources/FsResource"
 FsDispatcher = require "../dispatchers/FsDispatcher"
 SelectionStorage = require "../storages/SelectionStorage"
+Configurator = require "../Configurator"
 
 class FsItemList extends React.Component
 
@@ -36,11 +37,14 @@ class FsItemList extends React.Component
 
     return items
 
+  isDisabled: () ->
+    return not Configurator.isMultiselectEnabled()
+
   render: () ->
     <table className="table table-hover">
       <thead>
         <tr>
-          <th style={width: "15px"}><input type="checkbox" onChange={@toggleAll.bind @} /></th>
+          <th style={width: "15px"}><input type="checkbox" onChange={@toggleAll.bind @} disabled={@isDisabled()} /></th>
           <th>Name</th>
           <th style={width: "150px"}>Created</th>
           <th>Size</th>
