@@ -25,7 +25,7 @@ getEnv = () ->
   return ""
 
 gulp.task "scripts", ->
-  gulp.src "#{paths.app}/app.cjsx"
+  gulp.src "#{paths.src}/app.cjsx"
   .pipe webpack(webpackConfig)
   .pipe rename("app.js")
   .pipe(gulpIf(getEnv() == "production", uglify()))
@@ -33,7 +33,7 @@ gulp.task "scripts", ->
   .pipe gulp.dest "#{paths.dist.js}"
 
 gulp.task "watch", ->
-  gulp.watch "#{paths.app}/**/*", ["scripts"]
+  gulp.watch "#{paths.src}/**/*", ["scripts"]
 
 gulp.task "build", ["scripts"]
 gulp.task "default", ["build", "watch"]
