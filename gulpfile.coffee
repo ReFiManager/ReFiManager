@@ -15,6 +15,7 @@ notify = require "gulp-notify"
 
 webpackConfig = require "./build/webpackConfig"
 paths = require "./build/paths"
+distName = "ReFiManager"
 
 getEnv = () ->
   i = 0;
@@ -27,15 +28,15 @@ getEnv = () ->
 gulp.task "scripts", ->
   gulp.src "#{paths.src}/app.cjsx"
   .pipe webpack(webpackConfig)
-  .pipe rename("app.js")
+  .pipe rename("#{distName}.js")
   .pipe(gulpIf(getEnv() == "production", uglify()))
   .pipe notify "Script is builded"
   .pipe gulp.dest "#{paths.dist.js}"
 
 gulp.task "scripts:min", ->
-  gulp.src "#{paths.dist.js}/app.js"
+  gulp.src "#{paths.dist.js}/#{distName}.js"
   .pipe uglify()
-  .pipe rename("app.min.js")
+  .pipe rename("#{distName}.min.js")
   .pipe gulp.dest "#{paths.dist.js}"
 
 gulp.task "watch", ->
