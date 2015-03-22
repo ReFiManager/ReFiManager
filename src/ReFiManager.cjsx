@@ -11,6 +11,7 @@ NavigationStorage = require "./storages/NavigationStorage"
 HttpClient = require "./http/HttpClient"
 ReFiManagerApp = require "./components/ReFiManagerApp"
 MessageDispatcher = require "./dispatchers/MessageDispatcher"
+Utils = require "./utils/Utils"
 
 class ReFiManager
 
@@ -21,6 +22,7 @@ class ReFiManager
     React.render <ReFiManagerApp />, element
 
   initialize: (options) ->
+    options = Utils.mergeObjects {}, options, Configurator.getDefaultOptions()
     Configurator.setOptions options
 
     fsObject = FsObject.createInitialObject(Configurator.getStartDirectory())

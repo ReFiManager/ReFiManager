@@ -12,6 +12,15 @@ class Utils
       result.push item
     return result
 
+  mergeObjects: () ->
+    i = 1
+    while i < arguments.length
+      for key of arguments[i]
+        if arguments[i].hasOwnProperty(key)
+          arguments[0][key] = arguments[i][key]
+      i++
+    return arguments[0]
+
   truncate: (input, length) ->
     if input.length + 3 >= length
       input = "#{input.substr 0, length}..."

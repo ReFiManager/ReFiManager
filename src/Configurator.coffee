@@ -6,6 +6,12 @@
 
 class Configurator
 
+  defaultOptions:
+    multiselect: true
+
+  getDefaultOptions: () ->
+    return @defaultOptions
+
   setOptions: (@options) ->
 
   getElement: () ->

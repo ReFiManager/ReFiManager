@@ -61,7 +61,7 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Configurator, FsObject, HttpClient, MessageDispatcher, NavigationStorage, ReFiManager, ReFiManagerApp, React;
+	var Configurator, FsObject, HttpClient, MessageDispatcher, NavigationStorage, ReFiManager, ReFiManagerApp, React, Utils;
 
 	React = __webpack_require__(3);
 
@@ -77,6 +77,8 @@
 
 	MessageDispatcher = __webpack_require__(8);
 
+	Utils = __webpack_require__(9);
+
 	ReFiManager = (function() {
 	  function ReFiManager() {}
 
@@ -89,6 +91,7 @@
 
 	  ReFiManager.prototype.initialize = function(options) {
 	    var fsObject;
+	    options = Utils.mergeObjects({}, options, Configurator.getDefaultOptions());
 	    Configurator.setOptions(options);
 	    fsObject = FsObject.createInitialObject(Configurator.getStartDirectory());
 	    NavigationStorage.add(fsObject);
@@ -137,21 +140,21 @@
 
 	React = __webpack_require__(3);
 
-	Navigation = __webpack_require__(9);
+	Navigation = __webpack_require__(10);
 
-	FsItemList = __webpack_require__(10);
+	FsItemList = __webpack_require__(11);
 
-	SelectionList = __webpack_require__(11);
+	SelectionList = __webpack_require__(12);
 
-	CreateDirectoryModal = __webpack_require__(12);
+	CreateDirectoryModal = __webpack_require__(13);
 
-	UploadFileModal = __webpack_require__(13);
+	UploadFileModal = __webpack_require__(14);
 
-	Messages = __webpack_require__(14);
+	Messages = __webpack_require__(15);
 
 	MessageDispatcher = __webpack_require__(8);
 
-	ResetButton = __webpack_require__(15);
+	ResetButton = __webpack_require__(16);
 
 	ReFiManagerApp = (function(_super) {
 	  __extends(ReFiManagerApp, _super);
@@ -248,7 +251,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(16);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -259,6 +262,14 @@
 
 	Configurator = (function() {
 	  function Configurator() {}
+
+	  Configurator.prototype.defaultOptions = {
+	    multiselect: true
+	  };
+
+	  Configurator.prototype.getDefaultOptions = function() {
+	    return this.defaultOptions;
+	  };
 
 	  Configurator.prototype.setOptions = function(options) {
 	    this.options = options;
@@ -374,7 +385,7 @@
 
 	store2 = __webpack_require__(30);
 
-	FsDispatcher = __webpack_require__(17);
+	FsDispatcher = __webpack_require__(18);
 
 	FsObject = __webpack_require__(5);
 
@@ -505,11 +516,11 @@
 
 	var HttpClient, HttpRequest, UrlFactory, Utils;
 
-	HttpRequest = __webpack_require__(18);
+	HttpRequest = __webpack_require__(19);
 
-	UrlFactory = __webpack_require__(19);
+	UrlFactory = __webpack_require__(20);
 
-	Utils = __webpack_require__(20);
+	Utils = __webpack_require__(9);
 
 	HttpClient = (function() {
 	  function HttpClient() {}
@@ -626,6 +637,68 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Utils;
+
+	Utils = (function() {
+	  function Utils() {}
+
+	  Utils.prototype.arrayCopy = function(source) {
+	    var item, j, len, result;
+	    result = [];
+	    for (j = 0, len = source.length; j < len; j++) {
+	      item = source[j];
+	      result.push(item);
+	    }
+	    return result;
+	  };
+
+	  Utils.prototype.mergeObjects = function() {
+	    var i, key;
+	    i = 1;
+	    while (i < arguments.length) {
+	      for (key in arguments[i]) {
+	        if (arguments[i].hasOwnProperty(key)) {
+	          arguments[0][key] = arguments[i][key];
+	        }
+	      }
+	      i++;
+	    }
+	    return arguments[0];
+	  };
+
+	  Utils.prototype.truncate = function(input, length) {
+	    if (input.length + 3 >= length) {
+	      input = (input.substr(0, length)) + "...";
+	    }
+	    return input;
+	  };
+
+	  Utils.prototype.byteToReadbleFormat = function(bytes) {
+	    var gb, kb, mb, tb;
+	    if ((tb = bytes / 1000000000000) > 1) {
+	      return (parseFloat(tb).toFixed(2)) + " TB";
+	    } else if ((gb = bytes / 1000000000) > 1) {
+	      return (parseFloat(gb).toFixed(2)) + " GB";
+	    } else if ((mb = bytes / 1000000) > 1) {
+	      return (parseFloat(mb).toFixed(2)) + " MB";
+	    } else if ((kb = bytes / 1000) > 1) {
+	      return (parseFloat(kb).toFixed(2)) + " kB";
+	    } else {
+	      return (parseFloat(bytes).toFixed(2)) + " B";
+	    }
+	  };
+
+	  return Utils;
+
+	})();
+
+	module.exports = new Utils();
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var FsDispatcher, Navigation, NavigationItem, NavigationStorage, React,
 	  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
 	  __hasProp = {}.hasOwnProperty,
@@ -633,11 +706,11 @@
 
 	React = __webpack_require__(3);
 
-	NavigationItem = __webpack_require__(21);
+	NavigationItem = __webpack_require__(24);
 
 	NavigationStorage = __webpack_require__(6);
 
-	FsDispatcher = __webpack_require__(17);
+	FsDispatcher = __webpack_require__(18);
 
 	Navigation = (function(_super) {
 	  __extends(Navigation, _super);
@@ -713,7 +786,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Configurator, FsDispatcher, FsItem, FsItemList, FsResource, NavigationStorage, React, SelectionStorage,
@@ -722,15 +795,15 @@
 
 	React = __webpack_require__(3);
 
-	FsItem = __webpack_require__(22);
+	FsItem = __webpack_require__(21);
 
 	NavigationStorage = __webpack_require__(6);
 
-	FsResource = __webpack_require__(23);
+	FsResource = __webpack_require__(22);
 
-	FsDispatcher = __webpack_require__(17);
+	FsDispatcher = __webpack_require__(18);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
 	Configurator = __webpack_require__(4);
 
@@ -853,7 +926,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Inserter, PreviewImage, React, SelectedItem, SelectionList, SelectionStorage,
@@ -866,7 +939,7 @@
 
 	PreviewImage = __webpack_require__(26);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
 	Inserter = __webpack_require__(27);
 
@@ -931,7 +1004,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var CreateDirectoryModal, FsDispatcher, FsResource, React,
@@ -940,9 +1013,9 @@
 
 	React = __webpack_require__(3);
 
-	FsResource = __webpack_require__(23);
+	FsResource = __webpack_require__(22);
 
-	FsDispatcher = __webpack_require__(17);
+	FsDispatcher = __webpack_require__(18);
 
 	CreateDirectoryModal = (function(_super) {
 	  __extends(CreateDirectoryModal, _super);
@@ -1032,7 +1105,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var FsResource, React, UploadFileModal,
@@ -1041,7 +1114,7 @@
 
 	React = __webpack_require__(3);
 
-	FsResource = __webpack_require__(23);
+	FsResource = __webpack_require__(22);
 
 	UploadFileModal = (function(_super) {
 	  __extends(UploadFileModal, _super);
@@ -1130,7 +1203,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Messages, React,
@@ -1176,7 +1249,7 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var NavigationStorage, React, ResetButton, SelectionStorage,
@@ -1187,7 +1260,7 @@
 
 	NavigationStorage = __webpack_require__(6);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
 	ResetButton = (function(_super) {
 	  __extends(ResetButton, _super);
@@ -1219,7 +1292,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1374,7 +1447,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52)))
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher, FsDispatcher,
@@ -1404,7 +1477,7 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var HttpRequest;
@@ -1567,7 +1640,7 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Configurator, UrlFactory;
@@ -1613,107 +1686,7 @@
 
 
 /***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Utils;
-
-	Utils = (function() {
-	  function Utils() {}
-
-	  Utils.prototype.arrayCopy = function(source) {
-	    var i, item, len, result;
-	    result = [];
-	    for (i = 0, len = source.length; i < len; i++) {
-	      item = source[i];
-	      result.push(item);
-	    }
-	    return result;
-	  };
-
-	  Utils.prototype.truncate = function(input, length) {
-	    if (input.length + 3 >= length) {
-	      input = (input.substr(0, length)) + "...";
-	    }
-	    return input;
-	  };
-
-	  Utils.prototype.byteToReadbleFormat = function(bytes) {
-	    var gb, kb, mb, tb;
-	    if ((tb = bytes / 1000000000000) > 1) {
-	      return (parseFloat(tb).toFixed(2)) + " TB";
-	    } else if ((gb = bytes / 1000000000) > 1) {
-	      return (parseFloat(gb).toFixed(2)) + " GB";
-	    } else if ((mb = bytes / 1000000) > 1) {
-	      return (parseFloat(mb).toFixed(2)) + " MB";
-	    } else if ((kb = bytes / 1000) > 1) {
-	      return (parseFloat(kb).toFixed(2)) + " kB";
-	    } else {
-	      return (parseFloat(bytes).toFixed(2)) + " B";
-	    }
-	  };
-
-	  return Utils;
-
-	})();
-
-	module.exports = new Utils();
-
-
-/***/ },
 /* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var NavigationItem, NavigationStorage, React,
-	  __hasProp = {}.hasOwnProperty,
-	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-	React = __webpack_require__(3);
-
-	NavigationStorage = __webpack_require__(6);
-
-	NavigationItem = (function(_super) {
-	  __extends(NavigationItem, _super);
-
-	  NavigationItem.prototype.fsObject = {};
-
-	  function NavigationItem(props) {
-	    NavigationItem.__super__.constructor.call(this, props);
-	    this.fsObject = props.fsObject;
-	  }
-
-	  NavigationItem.prototype.render = function() {
-	    if (this.props.isLast) {
-	      return React.createElement("li", {
-	        "className": "active"
-	      }, this.fsObject.name);
-	    } else {
-	      return React.createElement("li", null, React.createElement("a", {
-	        "href": "#",
-	        "onClick": this._onClick.bind(this)
-	      }, this.fsObject.name));
-	    }
-	  };
-
-
-	  /*
-	   * Go back
-	   */
-
-	  NavigationItem.prototype._onClick = function(e) {
-	    NavigationStorage.goBack(this.fsObject);
-	    return e.stopPropagation();
-	  };
-
-	  return NavigationItem;
-
-	})(React.Component);
-
-	module.exports = NavigationItem;
-
-
-/***/ },
-/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Configurator, FsItem, FsResource, NavigationStorage, React, SelectionStorage, Utils, moment,
@@ -1724,11 +1697,11 @@
 
 	NavigationStorage = __webpack_require__(6);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
-	FsResource = __webpack_require__(23);
+	FsResource = __webpack_require__(22);
 
-	Utils = __webpack_require__(20);
+	Utils = __webpack_require__(9);
 
 	moment = __webpack_require__(120);
 
@@ -1852,7 +1825,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Configurator, FsDispatcher, FsResource, HttpClient, NavigationStorage, UrlFactory;
@@ -1861,11 +1834,11 @@
 
 	HttpClient = __webpack_require__(7);
 
-	UrlFactory = __webpack_require__(19);
+	UrlFactory = __webpack_require__(20);
 
 	NavigationStorage = __webpack_require__(6);
 
-	FsDispatcher = __webpack_require__(17);
+	FsDispatcher = __webpack_require__(18);
 
 	FsResource = (function() {
 	  function FsResource() {}
@@ -1929,7 +1902,7 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var EventEmitter, SelectionStorage, store2,
@@ -2105,6 +2078,58 @@
 
 
 /***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var NavigationItem, NavigationStorage, React,
+	  __hasProp = {}.hasOwnProperty,
+	  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+	React = __webpack_require__(3);
+
+	NavigationStorage = __webpack_require__(6);
+
+	NavigationItem = (function(_super) {
+	  __extends(NavigationItem, _super);
+
+	  NavigationItem.prototype.fsObject = {};
+
+	  function NavigationItem(props) {
+	    NavigationItem.__super__.constructor.call(this, props);
+	    this.fsObject = props.fsObject;
+	  }
+
+	  NavigationItem.prototype.render = function() {
+	    if (this.props.isLast) {
+	      return React.createElement("li", {
+	        "className": "active"
+	      }, this.fsObject.name);
+	    } else {
+	      return React.createElement("li", null, React.createElement("a", {
+	        "href": "#",
+	        "onClick": this._onClick.bind(this)
+	      }, this.fsObject.name));
+	    }
+	  };
+
+
+	  /*
+	   * Go back
+	   */
+
+	  NavigationItem.prototype._onClick = function(e) {
+	    NavigationStorage.goBack(this.fsObject);
+	    return e.stopPropagation();
+	  };
+
+	  return NavigationItem;
+
+	})(React.Component);
+
+	module.exports = NavigationItem;
+
+
+/***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2114,9 +2139,9 @@
 
 	React = __webpack_require__(3);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
-	Utils = __webpack_require__(20);
+	Utils = __webpack_require__(9);
 
 	SelectedItem = (function(_super) {
 	  __extends(SelectedItem, _super);
@@ -2158,7 +2183,7 @@
 
 	React = __webpack_require__(3);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
 	Configurator = __webpack_require__(4);
 
@@ -2228,7 +2253,7 @@
 
 	React = __webpack_require__(3);
 
-	SelectionStorage = __webpack_require__(24);
+	SelectionStorage = __webpack_require__(23);
 
 	Configurator = __webpack_require__(4);
 
@@ -36199,7 +36224,7 @@
 
 	"use strict";
 
-	var camelize = __webpack_require__(287);
+	var camelize = __webpack_require__(286);
 
 	var msPattern = /^-ms-/;
 
@@ -36307,7 +36332,7 @@
 
 	"use strict";
 
-	var hyphenate = __webpack_require__(286);
+	var hyphenate = __webpack_require__(287);
 
 	var msPattern = /^ms-/;
 
@@ -43079,6 +43104,42 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
+	 * @providesModule camelize
+	 * @typechecks
+	 */
+
+	var _hyphenPattern = /-(.)/g;
+
+	/**
+	 * Camelcases a hyphenated string, for example:
+	 *
+	 *   > camelize('background-color')
+	 *   < "backgroundColor"
+	 *
+	 * @param {string} string
+	 * @return {string}
+	 */
+	function camelize(string) {
+	  return string.replace(_hyphenPattern, function(_, character) {
+	    return character.toUpperCase();
+	  });
+	}
+
+	module.exports = camelize;
+
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
 	 * @providesModule hyphenate
 	 * @typechecks
 	 */
@@ -43102,42 +43163,6 @@
 	}
 
 	module.exports = hyphenate;
-
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule camelize
-	 * @typechecks
-	 */
-
-	var _hyphenPattern = /-(.)/g;
-
-	/**
-	 * Camelcases a hyphenated string, for example:
-	 *
-	 *   > camelize('background-color')
-	 *   < "backgroundColor"
-	 *
-	 * @param {string} string
-	 * @return {string}
-	 */
-	function camelize(string) {
-	  return string.replace(_hyphenPattern, function(_, character) {
-	    return character.toUpperCase();
-	  });
-	}
-
-	module.exports = camelize;
 
 
 /***/ },
