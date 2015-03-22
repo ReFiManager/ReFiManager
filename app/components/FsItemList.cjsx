@@ -40,9 +40,11 @@ class FsItemList extends React.Component
     <table className="table table-hover">
       <thead>
         <tr>
-          <th><input type="checkbox" onChange={@toggleAll.bind @} /></th>
+          <th style={width: "15px"}><input type="checkbox" onChange={@toggleAll.bind @} /></th>
           <th>Name</th>
-          <th></th>
+          <th style={width: "150px"}>Created</th>
+          <th>Size</th>
+          <th style={width: "15px"}></th>
         </tr>
       </thead>
       <tbody>

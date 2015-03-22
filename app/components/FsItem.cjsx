@@ -9,6 +9,7 @@ NavigationStorage = require "../storages/NavigationStorage"
 SelectionStorage = require "../storages/SelectionStorage"
 FsResource = require "../resources/FsResource"
 Utils = require "../utils/Utils"
+moment = require "moment"
 
 class FsItem extends React.Component
 
@@ -30,6 +31,20 @@ class FsItem extends React.Component
   isSelected: () ->
     return SelectionStorage.exist @fsObject
 
+  getDate: () ->
+    date = ""
+    if @fsObject.meta? && @fsObject.meta.created?
+      date = moment(@fsObject.meta.created, "X").format("DD.MM.YYYY HH:mm:ss")
+
+    return date
+
+  getSize: () ->
+    size = ""
+    if @fsObject.meta? && @fsObject.meta.size? && @fsObject.type != "directory"
+      size = Utils.byteToReadbleFormat @fsObject.meta.size
+
+    return size
+
   render: () ->
     if @fsObject.type == "directory"
       val = <a href="#" onClick={@_moveInto.bind @} title={@fsObject.name}>{Utils.truncate @fsObject.name, @maxLength}</a>
@@ -39,6 +54,8 @@ class FsItem extends React.Component
       <tr className="ReFiManager-fsItem">
         <td><input type="checkbox" checked={@state.selected} onChange={@_onToggleSelect.bind @}/></td>
         <td>{val}</td>
+        <td>{@getDate()}</td>
+        <td>{@getSize()}</td>
         <td><a href="#" className="btn btn-xs btn-danger" onClick={@_deleteItem.bind @}>&times;</a></td>
       </tr>
     )
