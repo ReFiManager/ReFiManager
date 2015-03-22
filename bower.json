@@ -12,5 +12,8 @@
     "rest"
   ],
   "license": "GPL-2.0",
-  "homepage": "https://github.com/ReFiManager/ReFiManager"
+  "homepage": "https://github.com/ReFiManager/ReFiManager",
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
 }
