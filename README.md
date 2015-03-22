@@ -2,7 +2,9 @@
 
 Javascript file manager wokrs as RESTfull client
 
-For more informations pleas see [wiki](https://github.com/ReFiManager/ReFiManager/wiki)
+## Documentation
+
+[Full documentation is here](https://github.com/ReFiManager/ReFiManager/wiki)
 
 ## Important
 
