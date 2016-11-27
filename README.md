@@ -1,3 +1,5 @@
 # ReFiManager - REST File Manager
 
-Javascript file manager wokrs as RESTfull client.
+Javascript file manager works as RESTfull client.
+
+**Warning: This brach is work in progress**
