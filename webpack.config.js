@@ -14,6 +14,10 @@ module.exports = {
     path: path.join(__dirname, './dist'),
     filename: 'refimanager.js'
   },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
   resolve: {
     root: [
       path.resolve(__dirname + '/src')
