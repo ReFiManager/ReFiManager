@@ -64,10 +64,10 @@ gulp.task('notify', () => {
 })
 
 gulp.task('watch', () => {
-  return gulp.watch(paths.src.scripts, () => {
+  gulp.watch(paths.src.scripts, () => {
     runSequence('scripts:build', 'scripts:dist', 'notify')
   })
-  return gulp.watch(`${paths.src.styles}/**/*`, () => {
+  gulp.watch(`${paths.src.styles}/**/*`, () => {
     runSequence('styles:dist', 'notify')
   })
 })
