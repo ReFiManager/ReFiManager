@@ -1,21 +1,39 @@
 {
   "name": "@refimanager/manager",
   "version": "0.0.1",
+  "author": "Ondřej Záruba <info@zaruba-ondrej.dev> (https://zaruba-ondrej.dev/)",
   "description": "Javascript file manager wokrs as REST API client",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:ReFiManager/ReFiManager.git"
-  },
-  "scripts": {},
   "keywords": [
     "ReFiManager",
     "file",
     "manager",
     "rest"
   ],
-  "author": "Ondřej Záruba <info@zaruba-ondrej.dev> (https://zaruba-ondrej.dev/)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ReFiManager/ReFiManager.git"
+  },
+  "main": "dist/refi-manager.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm-run-all --parallel build-js build-styles",
+    "build-styles": "sass styles/index.scss dist/refi-manager.css -s compressed",
+    "build-js": "rollup -c",
+    "dev": "npm-run-all --parallel dev-* watch-*",
+    "dev-js": "rollup -c",
+    "dev-styles": "sass styles/index.scss dist/refi-manager.css",
+    "watch-styles": "nodemon --watch ./styles --ext scss --exec \"yarn dev-styles\"",
+    "watch-js": "nodemon --watch ./src --ext ts --exec \"yarn build-js\""
+  },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.1",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.53.1",
+    "rollup-plugin-dts": "^4.2.0",
+    "sass": "^1.49.9",
+    "tslib": "^2.3.1",
     "typescript": "^4.6.2"
   }
 }
